@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Excel & Power BI Mastery</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        :root {
+            --primary: #1a2a6c;
+            --secondary: #b21f1f;
+            --accent: #fdbb2d;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --excel: #217346;
+            --powerbi: #2faae3;
+        }
+
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+            color: #333;
+            min-height: 100vh;
+            padding-bottom: 50px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            text-align: center;
+            padding: 40px 0;
+            color: white;
+            animation: fadeIn 1s ease-out;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.1);
+            z-index: -1;
+        }
+
+        header h1 {
+            font-size: 3.5rem;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(to right, var(--light), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 700;
+        }
+
+        header p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            opacity: 0.9;
+        }
+
+        .tabs-container {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-bottom: 40px;
+            flex-wrap: wrap;
+            perspective: 1000px;
+        }
+
+        .tab {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 25px 30px;
+            width: 300px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+            transform-style: preserve-3d;
+        }
+
+        .tab:hover {
+            transform: translateY(-15px) rotateX(10deg) scale(1.05);
+            box-shadow: 0 25px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .tab::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--accent));
+        }
+
+        .tab.excel::before {
+            background: linear-gradient(90deg, var(--excel), #34a853, #87ceeb);
+        }
+
+        .tab.powerbi::before {
+            background: linear-gradient(90deg, var(--powerbi), #8a2be2, #00b0ff);
+        }
+
+        .tab i {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            transition: all 0.3s ease;
+        }
+
+        .tab.excel i {
+            background: linear-gradient(to right, var(--excel), #34a853);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .tab.powerbi i {
+            background: linear-gradient(to right, var(--powerbi), #8a2be2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .tab h2 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+            color: var(--primary);
+            transition: all 0.3s ease;
+        }
+
+        .tab.excel h2 {
+            color: var(--excel);
+        }
+
+        .tab.powerbi h2 {
+            color: var(--powerbi);
+        }
+
+        .tab p {
+            color: #666;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+        }
+
+        .content-section {
+            background: rgba(255, 255, 255, 0.97);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+            margin-top: 30px;
+            display: none;
+            animation: slideUp 0.7s ease-out;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+        }
+
+        .content-header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #eee;
+            position: relative;
+        }
+
+        .content-header h2 {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 15px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .content-header p {
+            color: #666;
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .content-categories {
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+
+        .category {
+            background: linear-gradient(145deg, #f0f0f0, #ffffff);
+            border-radius: 15px;
+            padding: 25px;
+            width: 100%;
+            max-width: 350px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .category::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: linear-gradient(to bottom, var(--primary), var(--secondary), var(--accent));
+        }
+
+        .category.excel::before {
+            background: linear-gradient(to bottom, var(--excel), #34a853);
+        }
+
+        .category.powerbi::before {
+            background: linear-gradient(to bottom, var(--powerbi), #8a2be2);
+        }
+
+        .category:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+
+        .category h3 {
+            color: var(--primary);
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--accent);
+            display: flex;
+            align-items: center;
+        }
+
+        .category.excel h3 {
+            color: var(--excel);
+            border-bottom: 2px solid #34a853;
+        }
+
+        .category.powerbi h3 {
+            color: var(--powerbi);
+            border-bottom: 2px solid #8a2be2;
+        }
+
+        .category h3 i {
+            margin-right: 10px;
+        }
+
+        .item-list {
+            list-style-type: none;
+            max-height: 400px;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+
+        .item-list::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .item-list::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+
+        .item-list::-webkit-scrollbar-thumb {
+            background: linear-gradient(to bottom, var(--primary), var(--secondary));
+            border-radius: 10px;
+        }
+
+        .item-list.excel::-webkit-scrollbar-thumb {
+            background: linear-gradient(to bottom, var(--excel), #34a853);
+        }
+
+        .item-list.powerbi::-webkit-scrollbar-thumb {
+            background: linear-gradient(to bottom, var(--powerbi), #8a2be2);
+        }
+
+        .item-list li {
+            padding: 15px;
+            margin-bottom: 15px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+            display: flex;
+            align-items: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .item-list li::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 3px;
+            height: 100%;
+            background: var(--accent);
+            transition: all 0.3s ease;
+        }
+
+        .item-list.excel li::before {
+            background: var(--excel);
+        }
+
+        .item-list.powerbi li::before {
+            background: var(--powerbi);
+        }
+
+        .item-list li:hover {
+            background: #f8f9fa;
+            transform: translateX(10px);
+        }
+
+        .item-list li:hover::before {
+            width: 6px;
+        }
+
+        .item-list li i {
+            margin-right: 15px;
+            color: var(--secondary);
+            font-size: 1.2rem;
+            min-width: 25px;
+        }
+
+        .item-list.excel li i {
+            color: var(--excel);
+        }
+
+        .item-list.powerbi li i {
+            color: var(--powerbi);
+        }
+
+        .active-tab {
+            display: block;
+        }
+
+        .level-selector {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin: 40px 0;
+        }
+
+        .level-btn {
+            padding: 15px 35px;
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.4s ease;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .level-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(to right, var(--secondary), var(--primary));
+            transition: all 0.4s ease;
+            z-index: -1;
+        }
+
+        .level-btn:hover::before {
+            width: 100%;
+        }
+
+        .level-btn:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .level-btn.active {
+            background: linear-gradient(to right, var(--accent), #ff8c00);
+            transform: translateY(-5px);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .level-btn.excel.active {
+            background: linear-gradient(to right, #34a853, var(--excel));
+        }
+
+        .level-btn.powerbi.active {
+            background: linear-gradient(to right, #8a2be2, var(--powerbi));
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideUp {
+            from { 
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
+
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+
+        .float {
+            animation: float 3s ease-in-out infinite;
+        }
+
+        footer {
+            text-align: center;
+            color: white;
+            margin-top: 70px;
+            padding: 30px;
+            opacity: 0.9;
+        }
+
+        /* Advanced animations */
+        .glow {
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from {
+                box-shadow: 0 0 20px rgba(253, 187, 45, 0.5);
+            }
+            to {
+                box-shadow: 0 0 30px rgba(253, 187, 45, 0.8), 0 0 40px rgba(253, 187, 45, 0.6);
+            }
+        }
+
+        .ripple {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ripple:after {
+            content: "";
+            display: block;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            background-image: radial-gradient(circle, #fff 10%, transparent 10.01%);
+            background-repeat: no-repeat;
+            background-position: 50%;
+            transform: scale(10, 10);
+            opacity: 0;
+            transition: transform .5s, opacity 1s;
+        }
+
+        .ripple:active:after {
+            transform: scale(0, 0);
+            opacity: .3;
+            transition: 0s;
+        }
+
+        /* Morphing background */
+        .morphing-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            opacity: 0.2;
+        }
+
+        .morphing-bg div {
+            position: absolute;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--primary), var(--accent));
+            animation: float 15s infinite linear;
+        }
+
+        .morphing-bg div:nth-child(1) {
+            width: 300px;
+            height: 300px;
+            top: 10%;
+            left: 10%;
+            animation-duration: 20s;
+        }
+
+        .morphing-bg div:nth-child(2) {
+            width: 200px;
+            height: 200px;
+            top: 60%;
+            left: 70%;
+            animation-duration: 15s;
+            animation-delay: 2s;
+        }
+
+        .morphing-bg div:nth-child(3) {
+            width: 250px;
+            height: 250px;
+            top: 40%;
+            left: 40%;
+            animation-duration: 18s;
+            animation-delay: 1s;
+        }
+
+        .morphing-bg div:nth-child(4) {
+            width: 180px;
+            height: 180px;
+            top: 70%;
+            left: 20%;
+            animation-duration: 12s;
+            animation-delay: 3s;
+        }
+
+        /* Media queries */
+        @media (max-width: 768px) {
+            .tabs-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .tab {
+                width: 100%;
+                max-width: 400px;
+            }
+            
+            .content-categories {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .level-selector {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .level-btn {
+                width: 100%;
+                max-width: 300px;
+            }
+            
+            header h1 {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="morphing-bg">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+    </div>
+
+    <div class="container">
+        <header>
+            <h1>Excel & Power BI Mastery</h1>
+            <p>Advanced techniques, shortcuts, formulas, and concepts for data professionals</p>
+        </header>
+
+        <div class="tabs-container">
+            <div class="tab excel" onclick="showContent('excel')">
+                <i class="fas fa-table"></i>
+                <h2>Excel Focus</h2>
+                <p>Shortcuts, Formulas & Important Concepts</p>
+            </div>
+
+            <div class="tab powerbi" onclick="showContent('powerbi')">
+                <i class="fas fa-chart-bar"></i>
+                <h2>Power BI Focus</h2>
+                <p>Visualizations, DAX & Data Modeling</p>
+            </div>
+        </div>
+
+        <div id="excel-content" class="content-section">
+            <div class="content-header">
+                <h2>Excel Mastery</h2>
+                <p>Everything you need to become an Excel expert</p>
+            </div>
+
+            <div class="level-selector">
+                <button class="level-btn excel active" onclick="showLevel('excel', 'beginner')">Beginner</button>
+                <button class="level-btn excel" onclick="showLevel('excel', 'advanced')">Advanced</button>
+            </div>
+
+            <div class="content-categories">
+                <div class="category excel">
+                    <h3><i class="fas fa-bolt"></i> Shortcuts</h3>
+                    <ul class="item-list excel">
+                        <li><i class="fas fa-keyboard"></i>Ctrl + ` - Switch between value and formula view</li>
+                        <li><i class="fas fa-keyboard"></i>Alt + = - AutoSum selected cells</li>
+                        <li><i class="fas fa-keyboard"></i>Ctrl + Shift + L - Toggle filters</li>
+                        <li><i class="fas fa-keyboard"></i>Ctrl + [ - Trace precedents</li>
+                        <li><i class="fas fa-keyboard"></i>Ctrl + ] - Trace dependents</li>
+                        <li><i class="fas fa-keyboard"></i>Ctrl + 1 - Format cells dialog</li>
+                        <li><i class="fas fa-keyboard"></i>Ctrl + Shift + $ - Apply currency format</li>
+                        <li><i class="fas fa-keyboard"></i>Ctrl + Shift + % - Apply percentage format</li>
+                        <li><i class="fas fa-keyboard"></i>F2 - Edit active cell</li>
+                        <li><i class="fas fa-keyboard"></i>Ctrl + Shift + " - Copy value from cell above</li>
+                        <li><i class="fas fa-keyboard"></i>Ctrl + ' - Copy formula from cell above</li>
+                        <li><i class="fas fa-keyboard"></i>Ctrl + K - Insert hyperlink</li>
+                        <li><i class="fas fa-keyboard"></i>Alt + H + O + I - AutoFit column width</li>
+                        <li><i class="fas fa-keyboard"></i>Ctrl + Shift + ~ - Apply general format</li>
+                        <li><i class="fas fa-keyboard"></i>Ctrl + Shift + # - Apply date format</li>
+                        <li><i class="fas fa-keyboard"></i>Ctrl + Shift + @ - Apply time format</li>
+                        <li><i class="fas fa-keyboard"></i>Ctrl + Shift + ! - Apply number format</li>
+                        <li><i class="fas fa-keyboard"></i>Alt + E + S + V - Paste special values</li>
+                        <li><i class="fas fa-keyboard"></i>Ctrl + Shift + U - Expand formula bar</li>
+                        <li><i class="fas fa-keyboard"></i>Ctrl + F3 - Open name manager</li>
+                        <li><i class="fas fa-keyboard"></i>Ctrl + Shift + F3 - Create names from selection</li>
+                        <li><i class="fas fa-keyboard"></i>Alt + M + V - Evaluate formula</li>
+                        <li><i class="fas fa-keyboard"></i>Ctrl + Alt + V - Paste special dialog</li>
+                        <li><i class="fas fa-keyboard"></i>Alt + W + F + F - Freeze panes</li>
+                        <li><i class="fas fa-keyboard"></i>Ctrl + . - Move to next corner of selection</li>
+                        <li><i class="fas fa-keyboard"></i>Ctrl + Alt + F9 - Calculate all worksheets</li>
+                        <li><i class="fas fa-keyboard"></i>Ctrl + Alt + Shift + F9 - Recheck dependent formulas</li>
+                        <li><i class="fas fa-keyboard"></i>Alt + F1 - Create chart from selected data</li>
+                        <li><i class="fas fa-keyboard"></i>F4 - Repeat last action or toggle references</li>
+                        <li><i class="fas fa-keyboard"></i>Ctrl + \ - Highlight row differences</li>
+                        <li><i class="fas fa-keyboard"></i>Ctrl + Shift + \ - Highlight column differences</li>
+                        <li><i class="fas fa-keyboard"></i>Alt + ; - Select visible cells only</li>
+                    </ul>
+                </div>
+
+                <div class="category excel">
+                    <h3><i class="fas fa-calculator"></i> Formulas</h3>
+                    <ul class="item-list excel">
+                        <li><i class="fas fa-square-root-alt"></i>XLOOKUP() - Modern replacement for VLOOKUP</li>
+                        <li><i class="fas fa-square-root-alt"></i>FILTER() - Filter range based on criteria</li>
+                        <li><i class="fas fa-square-root-alt"></i>SORT() - Sort range by specified column</li>
+                        <li><i class="fas fa-square-root-alt"></i>UNIQUE() - Extract unique values from range</li>
+                        <li><i class="fas fa-square-root-alt"></i>SEQUENCE() - Generate sequence of numbers</li>
+                        <li><i class="fas fa-square-root-alt"></i>RANDARRAY() - Array of random numbers</li>
+                        <li><i class="fas fa-square-root-alt"></i>LET() - Assign names to calculation results</li>
+                        <li><i class="fas fa-square-root-alt"></i>LAMBDA() - Create custom functions</li>
+                        <li><i class="fas fa-square-root-alt"></i>IFS() - Multiple condition IF statement</li>
+                        <li><i class="fas fa-square-root-alt"></i>SWITCH() - Value matching with results</li>
+                        <li><i class="fas fa-square-root-alt"></i>TEXTJOIN() - Join text with delimiter</li>
+                        <li><i class="fas fa-square-root-alt"></i>CONCAT() - Concatenate text from range</li>
+                        <li><i class="fas fa-square-root-alt"></i>MAXIFS() - Maximum value with conditions</li>
+                        <li><i class="fas fa-square-root-alt"></i>MINIFS() - Minimum value with conditions</li>
+                        <li><i class="fas fa-square-root-alt"></i>SUMIFS() - Sum values with multiple criteria</li>
+                        <li><i class="fas fa-square-root-alt"></i>COUNTIFS() - Count cells with multiple criteria</li>
+                        <li><i class="fas fa-square-root-alt"></i>AVERAGEIFS() - Average with multiple criteria</li>
+                        <li><i class="fas fa-square-root-alt"></i>INDEX(MATCH()) - Powerful lookup combination</li>
+                        <li><i class="fas fa-square-root-alt"></i>INDIRECT() - Reference from text string</li>
+                        <li><i class="fas fa-square-root-alt"></i>OFFSET() - Reference offset from starting cell</li>
+                        <li><i class="fas fa-square-root-alt"></i>SUMPRODUCT() - Multiply then sum arrays</li>
+                        <li><i class="fas fa-square-root-alt"></i>CHOOSE() - Select value from list by index</li>
+                        <li><i class="fas fa-square-root-alt"></i>FORMULATEXT() - Display formula as text</li>
+                        <li><i class="fas fa-square-root-alt"></i>AGGREGATE() - Aggregate with ignoring errors</li>
+                        <li><i class="fas fa-square-root-alt"></i>DATEVALUE() - Convert date text to serial number</li>
+                        <li><i class="fas fa-square-root-alt"></i>EOMONTH() - Last day of month offset</li>
+                        <li><i class="fas fa-square-root-alt"></i>WORKDAY() - Date excluding weekends</li>
+                        <li><i class="fas fa-square-root-alt"></i>NETWORKDAYS() - Working days between dates</li>
+                        <li><i class="fas fa-square-root-alt"></i>XIRR() - Internal rate of return</li>
+                        <li><i class="fas fa-square-root-alt"></i>XNPV() - Net present value</li>
+                        <li><i class="fas fa-square-root-alt"></i>PMT() - Loan payment calculation</li>
+                        <li><i class="fas fa-square-root-alt"></i>RATE() - Interest rate per period</li>
+                    </ul>
+                </div>
+
+                <div class="category excel">
+                    <h3><i class="fas fa-lightbulb"></i> Concepts</h3>
+                    <ul class="item-list excel">
+                        <li><i class="fas fa-brain"></i>Dynamic Arrays - Spill ranges and functions</li>
+                        <li><i class="fas fa-brain"></i>Power Query - Data transformation and ETL</li>
+                        <li><i class="fas fa-brain"></i>Data Model - In-memory analytics engine</li>
+                        <li><i class="fas fa-brain"></i>Power Pivot - Advanced data modeling</li>
+                        <li><i class="fas fa-brain"></i>DAX Formulas - Data Analysis Expressions</li>
+                        <li><i class="fas fa-brain"></i>Conditional Formatting - Visual data analysis</li>
+                        <li><i class="fas fa-brain"></i>Pivot Tables - Data summarization tool</li>
+                        <li><i class="fas fa-brain"></i>Pivot Charts - Visual representation of pivot data</li>
+                        <li><i class="fas fa-brain"></i>What-If Analysis - Scenario manager, data tables</li>
+                        <li><i class="fas fa-brain"></i>Solver - Optimization tool for constraints</li>
+                        <li><i class="fas fa-brain"></i>Macros - Automation with VBA</li>
+                        <li><i class="fas fa-brain"></i>Array Formulas - Legacy CSE formulas</li>
+                        <li><i class="fas fa-brain"></i>Structured References - Table column references</li>
+                        <li><i class="fas fa-brain"></i>3D References - Across multiple sheets</li>
+                        <li><i class="fas fa-brain"></i>Circular References - Formulas referring to own cell</li>
+                        <li><i class="fas fa-brain"></i>Data Validation - Control cell input</li>
+                        <li><i class="fas fa-brain"></i>Advanced Filter - Complex filtering criteria</li>
+                        <li><i class="fas fa-brain"></i>Sparklines - Miniature in-cell charts</li>
+                        <li><i class="fas fa-brain"></i>Forecast Sheet - AI-powered forecasting</li>
+                        <li><i class="fas fa-brain"></i>Geography Data Types - Linked geographical data</li>
+                        <li><i class="fas fa-brain"></i>Stock Data Types - Linked financial data</li>
+                        <li><i class="fas fa-brain"></i>Collaborative Editing - Real-time co-authoring</li>
+                        <li><i class="fas fa-brain"></i>Workbook Links - Connections between files</li>
+                        <li><i class="fas fa-brain"></i>External References - Formulas linking to other workbooks</li>
+                        <li><i class="fas fa-brain"></i>Query Folding - Power Query performance optimization</li>
+                        <li><i class="fas fa-brain"></i>M Language - Power Query formula language</li>
+                        <li><i class="fas fa-brain"></i>Relative vs Absolute References - Cell reference types</li>
+                        <li><i class="fas fa-brain"></i>Volatile Functions - Functions that recalculate always</li>
+                        <li><i class="fas fa-brain"></i>Iterative Calculation - For circular references</li>
+                        <li><i class="fas fa-brain"></i>Multi-threaded Calculation - Performance optimization</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div id="powerbi-content" class="content-section">
+            <div class="content-header">
+                <h2>Power BI Mastery</h2>
+                <p>Transform data into insights with Power BI</p>
+            </div>
+
+            <div class="level-selector">
+                <button class="level-btn powerbi active" onclick="showLevel('powerbi', 'beginner')">Beginner</button>
+                <button class="level-btn powerbi" onclick="showLevel('powerbi', 'advanced')">Advanced</button>
+            </div>
+
+            <div class="content-categories">
+                <div class="category powerbi">
+                    <h3><i class="fas fa-bolt"></i> Shortcuts</h3>
+                    <ul class="item-list powerbi">
+                        <li><i class="fas fa-keyboard"></i>Ctrl + N - Create new report</li>
+                        <li><i class="fas fa-keyboard"></i>Ctrl + S - Save report</li>
+                        <li><i class="fas fa-keyboard"></i>Alt + F5 - Refresh data</li>
+                        <li><i class="fas fa-keyboard"></i>Ctrl + Mouse Wheel - Zoom in/out</li>
+                        <li><i class="fas fa-keyboard"></i>F11 - Full screen mode</li>
+                        <li><i class="fas fa-keyboard"></i>Ctrl + +/- - Zoom in/out</li>
+                        <li><i class="fas fa-keyboard"></i>Ctrl + 0 - Reset zoom</li>
+                        <li><i class="fas fa-keyboard"></i>Ctrl + E - Explore data</li>
+                        <li><i class="fas fa-keyboard"></i>Ctrl + D - Duplicate selected visual</li>
+                        <li><i class="fas fa-keyboard"></i>Ctrl + Up/Down - Navigate visuals</li>
+                        <li><i class="fas fa-keyboard"></i>Alt + Shift + Drag - Resize visual proportionally</li>
+                        <li><i class="fas fa-keyboard"></i>Ctrl + Click - Multi-select visuals</li>
+                        <li><i class="fas fa-keyboard"></i>Shift + Click - Select range of visuals</li>
+                        <li><i class="fas fa-keyboard"></i>Ctrl + R - Show/hide report pane</li>
+                        <li><i class="fas fa-keyboard"></i>Ctrl + T - Show/hide data table</li>
+                        <li><i class="fas fa-keyboard"></i>Ctrl + B - Show/hide bookmarks pane</li>
+                        <li><i class="fas fa-keyboard"></i>Ctrl + L - Show/hide selection pane</li>
+                        <li><i class="fas fa-keyboard"></i>Ctrl + F - Find in report</li>
+                        <li><i class="fas fa-keyboard"></i>Ctrl + P - Print report</li>
+                        <li><i class="fas fa-keyboard"></i>Alt + Enter - Edit visual in focus mode</li>
+                        <li><i class="fas fa-keyboard"></i>Ctrl + Shift + M - Switch mobile layout view</li>
+                        <li><i class="fas fa-keyboard"></i>Ctrl + Shift + S - Save as</li>
+                        <li><i class="fas fa-keyboard"></i>Ctrl + O - Open report</li>
+                        <li><i class="fas fa-keyboard"></i>Ctrl + W - Close report</li>
+                        <li><i class="fas fa-keyboard"></i>Ctrl + Q - Open search</li>
+                        <li><i class="fas fa-keyboard"></i>F1 - Help</li>
+                        <li><i class="fas fa-keyboard"></i>F2 - Rename selected visual</li>
+                        <li><i class="fas fa-keyboard"></i>F4 - Show/hide filters pane</li>
+                        <li><i class="fas fa-keyboard"></i>F6 - Switch between panes</li>
+                        <li><i class="fas fa-keyboard"></i>Ctrl + Alt + P - Performance analyzer</li>
+                        <li><i class="fas fa-keyboard"></i>Ctrl + Shift + F - Apply filter to all pages</li>
+                        <li><i class="fas fa-keyboard"></i>Ctrl + Shift + E - Edit interactions</li>
+                    </ul>
+                </div>
+
+                <div class="category powerbi">
+                    <h3><i class="fas fa-calculator"></i> DAX Formulas</h3>
+                    <ul class="item-list powerbi">
+                        <li><i class="fas fa-square-root-alt"></i>CALCULATE() - Modify filter context</li>
+                        <li><i class="fas fa-square-root-alt"></i>FILTER() - Return table filtered by condition</li>
+                        <li><i class="fas fa-square-root-alt"></i>ALL() - Remove filters from table/column</li>
+                        <li><i class="fas fa-square-root-alt"></i>RELATED() - Fetch value from related table</li>
+                        <li><i class="fas fa-square-root-alt"></i>RELATEDTABLE() - Return related table</li>
+                        <li><i class="fas fa-square-root-alt"></i>SUMX() - Sum of expression evaluated for each row</li>
+                        <li><i class="fas fa-square-root-alt"></i>RANKX() - Rank row within table</li>
+                        <li><i class="fas fa-square-root-alt"></i>EARLIER() - Access outer row context</li>
+                        <li><i class="fas fa-square-root-alt"></i>TOPN() - Return top N rows</li>
+                        <li><i class="fas fa-square-root-alt"></i>DATEDIFF() - Difference between two dates</li>
+                        <li><i class="fas fa-square-root-alt"></i>DATESYTD() - Dates year-to-date</li>
+                        <li><i class="fas fa-square-root-alt"></i>TOTALYTD() - Year-to-date total</li>
+                        <li><i class="fas fa-square-root-alt"></i>SAMEPERIODLASTYEAR() - Same period previous year</li>
+                        <li><i class="fas fa-square-root-alt"></i>DATEADD() - Add time interval to date</li>
+                        <li><i class="fas fa-square-root-alt"></i>CALENDAR() - Table with continuous dates</li>
+                        <li><i class="fas fa-square-root-alt"></i>DIVIDE() - Safe division with alternate result</li>
+                        <li><i class="fas fa-square-root-alt"></i>SWITCH() - Multiple condition evaluation</li>
+                        <li><i class="fas fa-square-root-alt"></i>IF() - Conditional logic</li>
+                        <li><i class="fas fa-square-root-alt"></i>CONCATENATEX() - Concatenate values from table</li>
+                        <li><i class="fas fa-square-root-alt"></i>SELECTEDVALUE() - Value when single selection</li>
+                        <li><i class="fas fa-square-root-alt"></i>HASONEVALUE() - Check if single value in context</li>
+                        <li><i class="fas fa-square-root-alt"></i>VALUES() - Return distinct values</li>
+                        <li><i class="fas fa-square-root-alt"></i>DISTINCT() - Return distinct values</li>
+                        <li><i class="fas fa-square-root-alt"></i>USERELATIONSHIP() - Use inactive relationship</li>
+                        <li><i class="fas fa-square-root-alt"></i>CROSSFILTER() - Modify filter direction</li>
+                        <li><i class="fas fa-square-root-alt"></i>ISFILTERED() - Check if column is filtered</li>
+                        <li><i class="fas fa-square-root-alt"></i>ISCROSSFILTERED() - Check if table is crossfiltered</li>
+                        <li><i class="fas fa-square-root-alt"></i>VAR - Variable declaration</li>
+                        <li><i class="fas fa-square-root-alt"></i>RETURN - Return result in measure</li>
+                        <li><i class="fas fa-square-root-alt"></i>COMBINEVALUES() - Concatenate with delimiter</li>
+                        <li><i class="fas fa-square-root-alt"></i>STARTOFMONTH() - First day of month</li>
+                        <li><i class="fas fa-square-root-alt"></i>ENDOFMONTH() - Last day of month</li>
+                        <li><i class="fas fa-square-root-alt"></i>PARALLELPERIOD() - Parallel period calculation</li>
+                    </ul>
+                </div>
+
+                <div class="category powerbi">
+                    <h3><i class="fas fa-lightbulb"></i> Concepts</h3>
+                    <ul class="item-list powerbi">
+                        <li><i class="fas fa-brain"></i>Data Modeling - Designing table relationships</li>
+                        <li><i class="fas fa-brain"></i>Star Schema - Fact and dimension tables</li>
+                        <li><i class="fas fa-brain"></i>Snowflake Schema - Normalized dimension tables</li>
+                        <li><i class="fas fa-brain"></i>Filter Context - How filters affect calculations</li>
+                        <li><i class="fas fa-brain"></i>Row Context - Context in iterating functions</li>
+                        <li><i class="fas fa-brain"></i>Evaluation Context - Filter + Row context</li>
+                        <li><i class="fas fa-brain"></i>CALCULATE Modifiers - ALL, FILTER, etc.</li>
+                        <li><i class="fas fa-brain"></i>Time Intelligence - Date-based calculations</li>
+                        <li><i class="fas fa-brain"></i>Hierarchies - Multi-level data navigation</li>
+                        <li><i class="fas fa-brain"></i>Drillthrough - Detailed data exploration</li>
+                        <li><i class="fas fa-brain"></i>Bookmarks - Save report state</li>
+                        <li><i class="fas fa-brain"></i>Tooltips - Enhanced visual information</li>
+                        <li><i class="fas fa-brain"></i>Custom Visuals - Marketplace extensions</li>
+                        <li><i class="fas fa-brain"></i>R Visuals - Integration with R language</li>
+                        <li><i class="fas fa-brain"></i>Python Visuals - Integration with Python</li>
+                        <li><i class="fas fa-brain"></i>DirectQuery - Live connection to source</li>
+                        <li><i class="fas fa-brain"></i>Import Mode - Data imported into model</li>
+                        <li><i class="fas fa-brain"></i>Dual Storage Mode - Mixed data storage</li>
+                        <li><i class="fas fa-brain"></i>Aggregations - Pre-calculated summaries</li>
+                        <li><i class="fas fa-brain"></i>Row-Level Security - Data security by user</li>
+                        <li><i class="fas fa-brain"></i>Performance Optimizer - Query performance</li>
+                        <li><i class="fas fa-brain"></i>DAX Studio - Advanced DAX development</li>
+                        <li><i class="fas fa-brain"></i>Tabular Editor - Advanced model editing</li>
+                        <li><i class="fas fa-brain"></i>Power BI Service - Cloud reporting platform</li>
+                        <li><i class="fas fa-brain"></i>Dataflows - Cloud data preparation</li>
+                        <li><i class="fas fa-brain"></i>Datamarts - Self-service analytics</li>
+                        <li><i class="fas fa-brain"></i>Deployment Pipelines - Development lifecycle</li>
+                        <li><i class="fas fa-brain"></i>Power BI Premium - Enhanced capabilities</li>
+                        <li><i class="fas fa-brain"></i>Power BI Embedded - Integrate in applications</li>
+                        <li><i class="fas fa-brain"></i>AI Visuals - Integrated artificial intelligence</li>
+                        <li><i class="fas fa-brain"></i>Key Influencers - Identify impact factors</li>
+                        <li><i class="fas fa-brain"></i>Q&A - Natural language queries</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>Excel & Power BI Mastery © 2023 | Advanced Data Analytics Techniques</p>
+    </footer>
+
+    <script>
+        // Show Excel content by default
+        document.addEventListener('DOMContentLoaded', function() {
+            showContent('excel');
+            
+            // Add initial animations
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach((tab, index) => {
+                tab.style.animation = `fadeIn 0.8s ease-out ${index * 0.3}s forwards`;
+                tab.style.opacity = 0;
+            });
+            
+            // Add floating animation to tabs
+            setTimeout(() => {
+                document.querySelector('.tab.excel').classList.add('float');
+                document.querySelector('.tab.powerbi').classList.add('float');
+            }, 2000);
+            
+            // Add ripple effect to buttons
+            const buttons = document.querySelectorAll('.level-btn');
+            buttons.forEach(btn => {
+                btn.classList.add('ripple');
+            });
+        });
+
+        function showContent(type) {
+            // Hide all content sections
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active-tab');
+            });
+            
+            // Show the selected content section
+            document.getElementById(`${type}-content`).classList.add('active-tab');
+            
+            // Update level buttons
+            document.querySelectorAll('.level-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector(`.level-btn.${type}[onclick="showLevel('${type}', 'beginner')"]`).classList.add('active');
+            
+            // Add animation effect
+            const activeSection = document.getElementById(`${type}-content`);
+            activeSection.style.animation = 'none';
+            setTimeout(() => {
+                activeSection.style.animation = 'slideUp 0.7s ease-out';
+            }, 10);
+            
+            // Add glow effect to active tab
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('glow');
+            });
+            document.querySelector(`.tab.${type}`).classList.add('glow');
+        }
+
+        function showLevel(tool, level) {
+            // Update active button
+            document.querySelectorAll('.level-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            // In a real implementation, this would load different content
+            // For this example, we'll just animate the current content
+            const activeSection = document.getElementById(`${tool}-content`);
+            activeSection.style.animation = 'none';
+            setTimeout(() => {
+                activeSection.style.animation = 'slideUp 0.7s ease-out';
+            }, 10);
+            
+            // Add pulse animation to categories
+            const categories = activeSection.querySelectorAll('.category');
+            categories.forEach(category => {
+                category.classList.add('pulse');
+                setTimeout(() => {
+                    category.classList.remove('pulse');
+                }, 2000);
+            });
+        }
+        
+        // Add scroll animations
+        window.addEventListener('scroll', () => {
+            const contentSections = document.querySelectorAll('.content-section.active-tab .category');
+            contentSections.forEach(section => {
+                const sectionTop = section.getBoundingClientRect().top;
+                const windowHeight = window.innerHeight;
+                if (sectionTop < windowHeight * 0.85) {
+                    section.style.transform = 'translateY(0)';
+                    section.style.opacity = '1';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
