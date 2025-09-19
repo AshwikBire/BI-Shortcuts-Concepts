@@ -22,6 +22,9 @@
             --dark: #212529;
             --excel: #217346;
             --powerbi: #2faae3;
+            --search-bg: rgba(255, 255, 255, 0.15);
+            --search-focus: rgba(255, 255, 255, 0.25);
+            --card-bg: rgba(255, 255, 255, 0.95);
         }
 
         body {
@@ -42,25 +45,74 @@
             top: 0;
             z-index: 1000;
             backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 5%;
+        }
+
+        .profile-links {
+            display: flex;
+            gap: 20px;
         }
 
         .profile-bar a {
             color: var(--accent);
             text-decoration: none;
-            margin: 0 15px;
             font-weight: 500;
             transition: all 0.3s ease;
             display: inline-flex;
             align-items: center;
+            padding: 8px 15px;
+            border-radius: 30px;
+            background: rgba(255, 255, 255, 0.1);
         }
 
         .profile-bar a:hover {
             color: white;
             transform: translateY(-2px);
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
 
         .profile-bar a i {
             margin-right: 8px;
+        }
+
+        .search-container {
+            position: relative;
+            width: 300px;
+        }
+
+        .search-box {
+            width: 100%;
+            padding: 12px 20px;
+            padding-left: 45px;
+            border: none;
+            border-radius: 30px;
+            background: var(--search-bg);
+            color: white;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(5px);
+        }
+
+        .search-box::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .search-box:focus {
+            outline: none;
+            background: var(--search-focus);
+            box-shadow: 0 0 0 2px var(--accent);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgba(255, 255, 255, 0.7);
         }
 
         .container {
@@ -116,7 +168,7 @@
         }
 
         .tab {
-            background: rgba(255, 255, 255, 0.95);
+            background: var(--card-bg);
             border-radius: 15px;
             padding: 25px 30px;
             width: 300px;
@@ -195,7 +247,7 @@
         }
 
         .content-section {
-            background: rgba(255, 255, 255, 0.97);
+            background: var(--card-bg);
             border-radius: 20px;
             padding: 40px;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
@@ -475,7 +527,7 @@
         @keyframes float {
             0% { transform: translateY(0px); }
             50% { transform: translateY(-15px); }
-            100% { transform: translateY(0px); }
+           100% { transform: translateY(0px); }
         }
 
         .pulse {
@@ -589,7 +641,48 @@
             animation-delay: 3s;
         }
 
+        /* Search highlight */
+        .highlight {
+            background-color: rgba(253, 187, 45, 0.3);
+            border-radius: 3px;
+            padding: 0 2px;
+        }
+
+        /* Notification toast */
+        .toast {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.5s ease;
+        }
+
+        .toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
         /* Media queries */
+        @media (max-width: 992px) {
+            .profile-bar {
+                flex-direction: column;
+                gap: 15px;
+                padding: 15px;
+            }
+            
+            .search-container {
+                width: 100%;
+                max-width: 400px;
+            }
+        }
+
         @media (max-width: 768px) {
             .tabs-container {
                 flex-direction: column;
@@ -636,8 +729,15 @@
     </div>
 
     <div class="profile-bar">
-        <a href="https://ashwikbire.github.io/My-Portfolio/" target="_blank"><i class="fas fa-user-circle"></i> My Portfolio</a>
-        <a href="https://linkedin.com/in/ashwik-bire-b2a000186" target="_blank"><i class="fab fa-linkedin"></i> LinkedIn Profile</a>
+        <div class="profile-links">
+            <a href="https://ashwikbire.github.io/My-Portfolio/" target="_blank"><i class="fas fa-user-circle"></i> My Portfolio</a>
+            <a href="https://linkedin.com/in/ashwik-bire-b2a000186" target="_blank"><i class="fab fa-linkedin"></i> LinkedIn</a>
+        </div>
+        
+        <div class="search-container">
+            <i class="fas fa-search search-icon"></i>
+            <input type="text" id="searchInput" class="search-box" placeholder="Search for shortcuts, formulas, concepts...">
+        </div>
     </div>
 
     <div class="container">
@@ -669,13 +769,14 @@
             <div class="level-selector">
                 <button class="level-btn excel active" onclick="showLevel('excel', 'beginner')">Beginner</button>
                 <button class="level-btn excel" onclick="showLevel('excel', 'advanced')">Advanced</button>
+                <button class="level-btn excel" onclick="showLevel('excel', 'expert')">Expert</button>
             </div>
 
             <div class="content-categories">
                 <div class="category excel">
                     <h3><i class="fas fa-bolt"></i> Shortcuts</h3>
                     <ul class="item-list excel">
-                        <li><i class="fas fa-keyboard"></i>Ctrl + ` - Switch between value and formula view</li>
+                                                <li><i class="fas fa-keyboard"></i>Ctrl + ` - Switch between value and formula view</li>
                         <li><i class="fas fa-keyboard"></i>Alt + = - AutoSum selected cells</li>
                         <li><i class="fas fa-keyboard"></i>Ctrl + Shift + L - Toggle filters</li>
                         <li><i class="fas fa-keyboard"></i>Ctrl + [ - Trace precedents</li>
@@ -751,6 +852,7 @@
 <li><i class="fas fa-keyboard"></i>Ctrl + Shift + _ - Remove borders</li>
 <li><i class="fas fa-keyboard"></i>Alt + H + H - Choose fill color</li>
 <li><i class="fas fa-keyboard"></i>Alt + H + F + C - Choose font color</li>
+
                     </ul>
                 </div>
 
@@ -758,6 +860,14 @@
                     <h3><i class="fas fa-calculator"></i> Formulas</h3>
                     <ul class="item-list excel">
                         <li><i class="fas fa-square-root-alt"></i>XLOOKUP() - Modern replacement for VLOOKUP</li>
+                        <li><i class="fas fa-square-root-alt"></i>FILTER() - Dynamic filtering of data</li>
+                        <li><i class="fas fa-square-root-alt"></i>UNIQUE() - Extract unique values</li>
+                        <li><i class="fas fa-square-root-alt"></i>SORT() - Sort ranges dynamically</li>
+                        <li><i class="fas fa-square-root-alt"></i>SEQUENCE() - Generate number sequences</li>
+                        <li><i class="fas fa-square-root-alt"></i>SUMIFS() - Conditional sum with multiple criteria</li>
+                        <li><i class="fas fa-square-root-alt"></i>INDEX(MATCH()) - Powerful lookup combination</li>
+                        <li><i class="fas fa-square-root-alt"></i>LET() - Store intermediate calculations</li>
+						<li><i class="fas fa-square-root-alt"></i>XLOOKUP() - Modern replacement for VLOOKUP</li>
                         <li><i class="fas fa-square-root-alt"></i>FILTER() - Filter range based on criteria</li>
                         <li><i class="fas fa-square-root-alt"></i>SORT() - Sort range by specified column</li>
                         <li><i class="fas fa-square-root-alt"></i>UNIQUE() - Extract unique values from range</li>
@@ -856,7 +966,6 @@
 <li><i class="fas fa-square-root-alt"></i>IMSQRT() - Returns the square root of a complex number</li>
 <li><i class="fas fa-square-root-alt"></i>IMSIN() - Returns the sine of a complex number</li>
 <li><i class="fas fa-square-root-alt"></i>IMTAN() - Returns the tangent of a complex number</li>
-						
                     </ul>
                 </div>
 
@@ -864,6 +973,14 @@
                     <h3><i class="fas fa-lightbulb"></i> Concepts</h3>
                     <ul class="item-list excel">
                         <li><i class="fas fa-brain"></i>Dynamic Arrays - Spill ranges and functions</li>
+                        <li><i class="fas fa-brain"></i>Power Query - Data transformation and automation</li>
+                        <li><i class="fas fa-brain"></i>Data Model - Relationships between tables</li>
+                        <li><i class="fas fa-brain"></i>PivotTables - Data summarization and analysis</li>
+                        <li><i class="fas fa-brain"></i>Conditional Formatting - Visual data analysis</li>
+                        <li><i class="fas fa-brain"></i>What-If Analysis - Scenario manager and data tables</li>
+                        <li><i class="fas fa-brain"></i>Macros & VBA - Automation with visual basic</li>
+                        <li><i class="fas fa-brain"></i>Advanced Charts - Dynamic visualizations</li>
+						<li><i class="fas fa-brain"></i>Dynamic Arrays - Spill ranges and functions</li>
                         <li><i class="fas fa-brain"></i>Power Query - Data transformation and ETL</li>
                         <li><i class="fas fa-brain"></i>Data Model - In-memory analytics engine</li>
                         <li><i class="fas fa-brain"></i>Power Pivot - Advanced data modeling</li>
@@ -984,6 +1101,7 @@
             <div class="level-selector">
                 <button class="level-btn powerbi active" onclick="showLevel('powerbi', 'beginner')">Beginner</button>
                 <button class="level-btn powerbi" onclick="showLevel('powerbi', 'advanced')">Advanced</button>
+                <button class="level-btn powerbi" onclick="showLevel('powerbi', 'expert')">Expert</button>
             </div>
 
             <div class="content-categories">
@@ -991,6 +1109,14 @@
                     <h3><i class="fas fa-bolt"></i> Shortcuts</h3>
                     <ul class="item-list powerbi">
                         <li><i class="fas fa-keyboard"></i>Ctrl + N - Create new report</li>
+                        <li><i class="fas fa-keyboard"></i>Ctrl + S - Save report</li>
+                        <li><i class="fas fa-keyboard"></i>Ctrl + E - Explore data</li>
+                        <li><i class="fas fa-keyboard"></i>Alt + F1 - Create a new visual</li>
+                        <li><i class="fas fa-keyboard"></i>Ctrl + D - Duplicate selected visual</li>
+                        <li><i class="fas fa-keyboard"></i>Ctrl + Up/Down - Navigate between visuals</li>
+                        <li><i class="fas fa-keyboard"></i>F11 - Toggle full screen mode</li>
+                        <li><i class="fas fa-keyboard"></i>Ctrl + Mouse Wheel - Zoom in/out on canvas</li>
+						<li><i class="fas fa-keyboard"></i>Ctrl + N - Create new report</li>
                         <li><i class="fas fa-keyboard"></i>Ctrl + S - Save report</li>
                         <li><i class="fas fa-keyboard"></i>Alt + F5 - Refresh data</li>
                         <li><i class="fas fa-keyboard"></i>Ctrl + Mouse Wheel - Zoom in/out</li>
@@ -1083,8 +1209,6 @@
 <li><i class="fas fa-keyboard"></i>Alt + Shift + F - Send backward</li>
 <li><i class="fas fa-keyboard"></i>Alt + Shift + G - Bring to front</li>
 <li><i class="fas fa-keyboard"></i>Alt + Shift + H - Send to back</li>
-						
-						
                     </ul>
                 </div>
 
@@ -1092,6 +1216,28 @@
                     <h3><i class="fas fa-calculator"></i> DAX Formulas</h3>
                     <ul class="item-list powerbi">
                         <li><i class="fas fa-square-root-alt"></i>CALCULATE() - Modify filter context</li>
+                        <li><i class="fas fa-square-root-alt"></i>FILTER() - Return a filtered table</li>
+                        <li><i class="fas fa-square-root-alt"></i>ALL() - Remove filters from table/columns</li>
+                        <li><i class="fas fa-square-root-alt"></i>RELATED() - Fetch values from related tables</li>
+                        <li><i class="fas fa-square-root-alt"></i>SUMX() - Iterative sum with expression</li>
+                        <li><i class="fas fa-square-root-alt"></i>RANKX() - Ranking across a table</li>
+                        <li><i class="fas fa-square-root-alt"></i>TIME INTELLIGENCE - Dates functions</li>
+                        <li><i class="fas fa-square-root-alt"></i>VAR - Variables for complex calculations</li>
+                    </ul>
+                </div>
+
+                <div class="category powerbi">
+                    <h3><i class="fas fa-lightbulb"></i> Concepts</h3>
+                    <ul class="item-list powerbi">
+                        <li><i class="fas fa-brain"></i>Data Modeling - Star schema design</li>
+                        <li><i class="fas fa-brain"></i>Relationships - Connecting tables (1:1, 1:many)</li>
+                        <li><i class="fas fa-brain"></i>Row-Level Security - Data access control</li>
+                        <li><i class="fas fa-brain"></i>Power Query M - Advanced data transformation</li>
+                        <li><i class="fas fa-brain"></i>Custom Visuals - Expand visualization options</li>
+                        <li><i class="fas fa-brain"></i>Bookmarks - Interactive report navigation</li>
+                        <li><i class="fas fa-brain"></i>Performance Optimization - DAX and model tuning</li>
+                        <li><i class="fas fa-brain"></i>Deployment Pipelines - Development to production</li>
+						<li><i class="fas fa-square-root-alt"></i>CALCULATE() - Modify filter context</li>
                         <li><i class="fas fa-square-root-alt"></i>FILTER() - Return table filtered by condition</li>
                         <li><i class="fas fa-square-root-alt"></i>ALL() - Remove filters from table/column</li>
                         <li><i class="fas fa-square-root-alt"></i>RELATED() - Fetch value from related table</li>
@@ -1347,11 +1493,13 @@
 <li><i class="fas fa-brain"></i>Custom Functions - Reusable transformation logic</li>
 <li><i class="fas fa-brain"></i>Error Handling - Managing data quality issues</li>
 <li><i class="fas fa-brain"></i>Data Profiling - Understanding data structure and quality</li>
-					</ul>
+                    </ul>
                 </div>
             </div>
         </div>
     </div>
+
+    <div id="toast" class="toast">No results found for your search</div>
 
     <footer>
         <p>Excel & Power BI Mastery © 2023 | Advanced Data Analytics Techniques</p>
@@ -1380,6 +1528,10 @@
             buttons.forEach(btn => {
                 btn.classList.add('ripple');
             });
+            
+            // Add search functionality
+            const searchInput = document.getElementById('searchInput');
+            searchInput.addEventListener('input', handleSearch);
         });
 
         function showContent(type) {
@@ -1409,6 +1561,10 @@
                 tab.classList.remove('glow');
             });
             document.querySelector(`.tab.${type}`).classList.add('glow');
+            
+            // Clear search when switching tabs
+            document.getElementById('searchInput').value = '';
+            clearHighlights();
         }
 
         function showLevel(tool, level) {
@@ -1434,6 +1590,88 @@
                     category.classList.remove('pulse');
                 }, 2000);
             });
+            
+            // Clear search when switching levels
+            document.getElementById('searchInput').value = '';
+            clearHighlights();
+        }
+        
+        // Search functionality
+        function handleSearch() {
+            const searchTerm = this.value.toLowerCase().trim();
+            
+            // Clear previous highlights
+            clearHighlights();
+            
+            if (searchTerm.length < 2) return;
+            
+            let foundResults = false;
+            
+            // Search in active tab content
+            const activeContent = document.querySelector('.content-section.active-tab');
+            const listItems = activeContent.querySelectorAll('.item-list li');
+            
+            listItems.forEach(item => {
+                const text = item.textContent.toLowerCase();
+                if (text.includes(searchTerm)) {
+                    foundResults = true;
+                    highlightText(item, searchTerm);
+                    item.style.display = 'flex';
+                    // Scroll to category if hidden
+                    item.closest('.category').style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+            
+            // Show notification if no results found
+            if (!foundResults) {
+                showToast();
+            }
+        }
+        
+        function highlightText(element, searchTerm) {
+            const text = element.textContent;
+            const regex = new RegExp(`(${searchTerm})`, 'gi');
+            const newText = text.replace(regex, '<span class="highlight">$1</span>');
+            
+            // Create a temporary element to parse HTML
+            const temp = document.createElement('div');
+            temp.innerHTML = newText;
+            
+            // Replace content while preserving icons
+            const icon = element.querySelector('i');
+            element.innerHTML = '';
+            if (icon) element.appendChild(icon);
+            element.innerHTML += temp.innerHTML;
+        }
+        
+        function clearHighlights() {
+            const highlights = document.querySelectorAll('.highlight');
+            highlights.forEach(highlight => {
+                highlight.outerHTML = highlight.innerHTML;
+            });
+            
+            // Show all items again
+            const listItems = document.querySelectorAll('.item-list li');
+            listItems.forEach(item => {
+                item.style.display = 'flex';
+            });
+            
+            // Ensure all categories are visible
+            const categories = document.querySelectorAll('.category');
+            categories.forEach(category => {
+                category.style.display = 'block';
+            });
+        }
+        
+        function showToast() {
+            const toast = document.getElementById('toast');
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
         }
         
         // Add scroll animations
