@@ -33,6 +33,36 @@
             padding-bottom: 50px;
         }
 
+        .profile-bar {
+            background: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 15px 0;
+            text-align: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+        }
+
+        .profile-bar a {
+            color: var(--accent);
+            text-decoration: none;
+            margin: 0 15px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+        }
+
+        .profile-bar a:hover {
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .profile-bar a i {
+            margin-right: 8px;
+        }
+
         .container {
             max-width: 1200px;
             margin: 0 auto;
@@ -589,6 +619,11 @@
             header h1 {
                 font-size: 2.5rem;
             }
+            
+            .profile-bar a {
+                display: block;
+                margin: 10px 0;
+            }
         }
     </style>
 </head>
@@ -598,6 +633,11 @@
         <div></div>
         <div></div>
         <div></div>
+    </div>
+
+    <div class="profile-bar">
+        <a href="https://ashwikbire.github.io/My-Portfolio/" target="_blank"><i class="fas fa-user-circle"></i> My Portfolio</a>
+        <a href="https://linkedin.com/in/ashwik-bire-b2a000186" target="_blank"><i class="fab fa-linkedin"></i> LinkedIn Profile</a>
     </div>
 
     <div class="container">
@@ -705,6 +745,23 @@
                         <li><i class="fas fa-square-root-alt"></i>XNPV() - Net present value</li>
                         <li><i class="fas fa-square-root-alt"></i>PMT() - Loan payment calculation</li>
                         <li><i class="fas fa-square-root-alt"></i>RATE() - Interest rate per period</li>
+                        <li><i class="fas fa-square-root-alt"></i>NPV() - Net present value of investment</li>
+                        <li><i class="fas fa-square-root-alt"></i>IRR() - Internal rate of return</li>
+                        <li><i class="fas fa-square-root-alt"></i>DB() - Fixed declining balance depreciation</li>
+                        <li><i class="fas fa-square-root-alt"></i>DDB() - Double declining balance depreciation</li>
+                        <li><i class="fas fa-square-root-alt"></i>VDB() - Variable declining balance depreciation</li>
+                        <li><i class="fas fa-square-root-alt"></i>SLN() - Straight-line depreciation</li>
+                        <li><i class="fas fa-square-root-alt"></i>SYD() - Sum-of-years depreciation</li>
+                        <li><i class="fas fa-square-root-alt"></i>MIRR() - Modified internal rate of return</li>
+                        <li><i class="fas fa-square-root-alt"></i>FVSCHEDULE() - Future value with variable rates</li>
+                        <li><i class="fas fa-square-root-alt"></i>EFFECT() - Effective annual interest rate</li>
+                        <li><i class="fas fa-square-root-alt"></i>NOMINAL() - Nominal annual interest rate</li>
+                        <li><i class="fas fa-square-root-alt"></i>ACCRINT() - Accrued interest for security</li>
+                        <li><i class="fas fa-square-root-alt"></i>INTRATE() - Interest rate for fully invested security</li>
+                        <li><i class="fas fa-square-root-alt"></i>PRICE() - Price per $100 face value of security</li>
+                        <li><i class="fas fa-square-root-alt"></i>YIELD() - Yield on security that pays periodic interest</li>
+                        <li><i class="fas fa-square-root-alt"></i>DURATION() - Macaulay duration of security</li>
+                        <li><i class="fas fa-square-root-alt"></i>MDURATION() - Modified duration of security</li>
                     </ul>
                 </div>
 
@@ -741,6 +798,25 @@
                         <li><i class="fas fa-brain"></i>Volatile Functions - Functions that recalculate always</li>
                         <li><i class="fas fa-brain"></i>Iterative Calculation - For circular references</li>
                         <li><i class="fas fa-brain"></i>Multi-threaded Calculation - Performance optimization</li>
+                        <li><i class="fas fa-brain"></i>Slicers - Visual filtering controls</li>
+                        <li><i class="fas fa-brain"></i>Timelines - Date-based filtering controls</li>
+                        <li><i class="fas fa-brain"></i>Power View - Interactive data visualization</li>
+                        <li><i class="fas fa-brain"></i>Power Map - 3D geospatial visualization</li>
+                        <li><i class="fas fa-brain"></i>Get & Transform - Data import and transformation</li>
+                        <li><i class="fas fa-brain"></i>Flash Fill - Pattern-based data extraction</li>
+                        <li><i class="fas fa-brain"></i>Quick Analysis - Instant data analysis tools</li>
+                        <li><i class="fas fa-brain"></i>Watch Window - Monitor cells in large worksheets</li>
+                        <li><i class="fas fa-brain"></i>Data Consolidation - Combine data from multiple ranges</li>
+                        <li><i class="fas fa-brain"></i>Scenario Manager - Compare different scenarios</li>
+                        <li><i class="fas fa-brain"></i>Goal Seek - Find input for desired output</li>
+                        <li><i class="fas fa-brain"></i>Data Tables - Sensitivity analysis tools</li>
+                        <li><i class="fas fa-brain"></i>Array Constants - Fixed arrays in formulas</li>
+                        <li><i class="fas fa-brain"></i>Implicit Intersection - @ operator behavior</li>
+                        <li><i class="fas fa-brain"></i>Dynamic Charting - Charts that update automatically</li>
+                        <li><i class="fas fa-brain"></i>Form Controls - Interactive form elements</li>
+                        <li><i class="fas fa-brain"></i>ActiveX Controls - Advanced interactive elements</li>
+                        <li><i class="fas fa-brain"></i>Workbook Protection - Secure workbook structure</li>
+                        <li><i class="fas fa-brain"></i>Worksheet Protection - Secure worksheet contents</li>
                     </ul>
                 </div>
             </div>
@@ -793,6 +869,14 @@
                         <li><i class="fas fa-keyboard"></i>Ctrl + Alt + P - Performance analyzer</li>
                         <li><i class="fas fa-keyboard"></i>Ctrl + Shift + F - Apply filter to all pages</li>
                         <li><i class="fas fa-keyboard"></i>Ctrl + Shift + E - Edit interactions</li>
+                        <li><i class="fas fa-keyboard"></i>Ctrl + Shift + D - Duplicate page</li>
+                        <li><i class="fas fa-keyboard"></i>Ctrl + Shift + N - New page</li>
+                        <li><i class="fas fa-keyboard"></i>Alt + Shift + S - Toggle sync slicers</li>
+                        <li><i class="fas fa-keyboard"></i>Ctrl + Shift + B - Show/hide bookmarks</li>
+                        <li><i class="fas fa-keyboard"></i>Ctrl + Shift + T - Show/hide fields</li>
+                        <li><i class="fas fa-keyboard"></i>Ctrl + Shift + V - Show/hide visuals</li>
+                        <li><i class="fas fa-keyboard"></i>Ctrl + Shift + O - Show/hide outline</li>
+                        <li><i class="fas fa-keyboard"></i>Ctrl + Shift + P - Show/hide performance analyzer</li>
                     </ul>
                 </div>
 
@@ -832,6 +916,24 @@
                         <li><i class="fas fa-square-root-alt"></i>STARTOFMONTH() - First day of month</li>
                         <li><i class="fas fa-square-root-alt"></i>ENDOFMONTH() - Last day of month</li>
                         <li><i class="fas fa-square-root-alt"></i>PARALLELPERIOD() - Parallel period calculation</li>
+                        <li><i class="fas fa-square-root-alt"></i>CLOSINGBALANCEMONTH() - Closing balance for month</li>
+                        <li><i class="fas fa-square-root-alt"></i>OPENINGBALANCEMONTH() - Opening balance for month</li>
+                        <li><i class="fas fa-square-root-alt"></i>TREATAS() - Apply table as filter</li>
+                        <li><i class="fas fa-square-root-alt"></i>GENERATE() - Generate table from crossjoin</li>
+                        <li><i class="fas fa-square-root-alt"></i>SUMMARIZE() - Create summary table</li>
+                        <li><i class="fas fa-square-root-alt"></i>ADDCOLUMNS() - Add columns to table</li>
+                        <li><i class="fas fa-square-root-alt"></i>SELECTCOLUMNS() - Select columns from table</li>
+                        <li><i class="fas fa-square-root-alt"></i>ROW() - Create single row table</li>
+                        <li><i class="fas fa-square-root-alt"></i>DATATABLE() - Create static table</li>
+                        <li><i class="fas fa-square-root-alt"></i>NATURALINNERJOIN() - Perform inner join</li>
+                        <li><i class="fas fa-square-root-alt"></i>NATURALLEFTOUTERJOIN() - Perform left join</li>
+                        <li><i class="fas fa-square-root-alt"></i>UNION() - Combine tables</li>
+                        <li><i class="fas fa-square-root-alt"></i>INTERSECT() - Intersection of two tables</li>
+                        <li><i class="fas fa-square-root-alt"></i>EXCEPT() - Difference between two tables</li>
+                        <li><i class="fas fa-square-root-alt"></i>CALCULATIONGROUPS() - Group calculations</li>
+                        <li><i class="fas fa-square-root-alt"></i>ISEMPTY() - Check if table is empty</li>
+                        <li><i class="fas fa-square-root-alt"></i>CONTAINS() - Check if value exists in table</li>
+                        <li><i class="fas fa-square-root-alt"></i>LOOKUPVALUE() - Fetch value from table</li>
                     </ul>
                 </div>
 
@@ -870,6 +972,24 @@
                         <li><i class="fas fa-brain"></i>AI Visuals - Integrated artificial intelligence</li>
                         <li><i class="fas fa-brain"></i>Key Influencers - Identify impact factors</li>
                         <li><i class="fas fa-brain"></i>Q&A - Natural language queries</li>
+                        <li><i class="fas fa-brain"></i>Composite Models - Combine import and DirectQuery</li>
+                        <li><i class="fas fa-brain"></i>Aggregate Tables - Pre-aggregated data tables</li>
+                        <li><i class="fas fa-brain"></i>Calculation Groups - Reusable calculation patterns</li>
+                        <li><i class="fas fa-brain"></i>Field Parameters - Dynamic field selection</li>
+                        <li><i class="fas fa-brain"></i>Hybrid Tables - Mixed real-time and historical data</li>
+                        <li><i class="fas fa-brain"></i>Incremental Refresh - Partial data refresh</li>
+                        <li><i class="fas fa-brain"></i>Query Folding - Push operations to source</li>
+                        <li><i class="fas fa-brain"></i>Template Apps - Pre-built solution templates</li>
+                        <li><i class="fas fa-brain"></i>Paginated Reports - Pixel-perfect reports</li>
+                        <li><i class="fas fa-brain"></i>Power BI Report Server - On-premises reporting</li>
+                        <li><i class="fas fa-brain"></i>XMLA Endpoints - Programmatic model access</li>
+                        <li><i class="fas fa-brain"></i>Power BI APIs - Programmatic integration</li>
+                        <li><i class="fas fa-brain"></i>Power Platform Integration - With Power Apps/Automate</li>
+                        <li><i class="fas fa-brain"></i>Data Protection - Sensitivity labels and encryption</li>
+                        <li><i class="fas fa-brain"></i>Data Lineage - Track data origins and transformations</li>
+                        <li><i class="fas fa-brain"></i>Impact Analysis - Understand changes affect</li>
+                        <li><i class="fas fa-brain"></i>Performance Analyzer - Identify report performance issues</li>
+                        <li><i class="fas fa-brain"></i>Usage Metrics - Track report usage and performance</li>
                     </ul>
                 </div>
             </div>
