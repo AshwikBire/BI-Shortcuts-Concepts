@@ -24,7 +24,10 @@
             --accent: #7B61FF;
             --accent-hover: #8B71FF;
             --success: #4CAF50;
+            --excel-color: #217346;
+            --powerbi-color: #F2C811;
             --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            --transition: all 0.3s ease;
         }
 
         body {
@@ -45,6 +48,8 @@
             --text-primary: #222222;
             --text-secondary: #666666;
             --card-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            --excel-color: #21A366;
+            --powerbi-color: #FFB900;
         }
 
         /* Layout */
@@ -90,20 +95,21 @@
             gap: 1.5rem;
         }
 
-        .profile-link {
+        .social-link {
             display: flex;
             align-items: center;
             text-decoration: none;
             color: var(--text-secondary);
-            transition: color 0.2s ease;
+            transition: var(--transition);
             font-weight: 500;
         }
 
-        .profile-link:hover {
+        .social-link:hover {
             color: var(--accent);
+            transform: translateY(-2px);
         }
 
-        .profile-link i {
+        .social-link i {
             margin-right: 0.5rem;
             font-size: 1.1rem;
         }
@@ -129,7 +135,7 @@
             border-radius: 6px;
             color: var(--text-primary);
             font-size: 1rem;
-            transition: border-color 0.2s ease;
+            transition: var(--transition);
         }
 
         .search-input:focus {
@@ -153,7 +159,13 @@
             gap: 1rem;
         }
 
-        .category-tabs {
+        .tabs-container {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .category-tabs, .type-tabs {
             display: flex;
             gap: 0.5rem;
             flex-wrap: wrap;
@@ -166,7 +178,8 @@
             border-radius: 6px;
             color: var(--text-secondary);
             cursor: pointer;
-            transition: all 0.2s ease;
+            transition: var(--transition);
+            font-size: 0.9rem;
         }
 
         .tab:hover {
@@ -189,11 +202,38 @@
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            transition: border-color 0.2s ease;
+            transition: var(--transition);
         }
 
         .toggle-theme:hover {
             border-color: var(--accent);
+        }
+
+        /* Stats */
+        .stats {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .stat-card {
+            background-color: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem;
+            flex: 1;
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
         }
 
         /* Content Grid */
@@ -209,12 +249,23 @@
             border: 1px solid var(--border);
             border-radius: 8px;
             padding: 1.5rem;
-            transition: transform 0.2s ease, box-shadow 0.2s ease;
+            transition: var(--transition);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
         }
 
         .card:hover {
             transform: translateY(-2px);
             box-shadow: var(--card-shadow);
+        }
+
+        .card.excel {
+            border-top: 4px solid var(--excel-color);
+        }
+
+        .card.powerbi {
+            border-top: 4px solid var(--powerbi-color);
         }
 
         .card-header {
@@ -234,17 +285,26 @@
         .card-category {
             font-size: 0.75rem;
             font-weight: 600;
-            color: var(--text-secondary);
-            background-color: var(--bg-tertiary);
+            color: white;
             padding: 0.25rem 0.5rem;
             border-radius: 4px;
             text-transform: uppercase;
+        }
+
+        .card-category.excel {
+            background-color: var(--excel-color);
+        }
+
+        .card-category.powerbi {
+            background-color: var(--powerbi-color);
+            color: #333;
         }
 
         .card-description {
             color: var(--text-secondary);
             margin-bottom: 1rem;
             font-size: 0.95rem;
+            flex-grow: 1;
         }
 
         .card-syntax {
@@ -262,6 +322,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            margin-top: auto;
         }
 
         .card-type {
@@ -280,7 +341,7 @@
             border-radius: 4px;
             cursor: pointer;
             font-size: 0.8rem;
-            transition: all 0.2s ease;
+            transition: var(--transition);
         }
 
         .copy-btn:hover {
@@ -339,11 +400,15 @@
         .footer-links a {
             color: var(--text-secondary);
             text-decoration: none;
-            transition: color 0.2s ease;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
         .footer-links a:hover {
             color: var(--accent);
+            transform: translateY(-2px);
         }
 
         /* Responsive Design */
@@ -364,6 +429,17 @@
                 align-items: flex-start;
             }
             
+            .tabs-container {
+                flex-direction: column;
+                width: 100%;
+            }
+            
+            .category-tabs, .type-tabs {
+                width: 100%;
+                overflow-x: auto;
+                padding-bottom: 0.5rem;
+            }
+            
             .content-grid {
                 grid-template-columns: 1fr;
             }
@@ -374,6 +450,10 @@
             
             .hero p {
                 font-size: 1rem;
+            }
+            
+            .stats {
+                flex-direction: column;
             }
         }
 
@@ -393,6 +473,7 @@
             border-radius: 6px;
             animation: fadeOut 2s forwards;
             animation-delay: 0.5s;
+            z-index: 1000;
         }
     </style>
 </head>
@@ -404,10 +485,11 @@
                 Data Mastery
             </a>
             <div class="header-links">
-                <a href="https://linkedin.com/in/ashwik-bire-b2a000186" target="_blank"><i class="fab fa-linkedin"></i> LinkedIn Profile</a>
-                <a href="https://ashwikbire.github.io/My-Portfolio/" class="profile-link" target="_blank"><i class="fas fa-briefcase"></i>Portfolio</a>
+                <a href="https://linkedin.com/in/ashwik-bire-b2a000186" target="_blank" class="social-link"><i class="fab fa-linkedin"></i> LinkedIn</a>
+                <a href="https://ashwikbire.github.io/My-Portfolio/" class="social-link" target="_blank"><i class="fas fa-briefcase"></i> Portfolio</a>
                 <button class="toggle-theme" id="themeToggle">
-                    <span>Toggle Light Mode</span>
+                    <i class="fas fa-moon"></i>
+                    <span>Toggle Theme</span>
                 </button>
             </div>
         </div>
@@ -419,6 +501,21 @@
             <p>Your comprehensive resource for shortcuts, formulas, and concepts to master data analysis and visualization</p>
         </div>
 
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-number" id="excelCount">0</div>
+                <div class="stat-label">Excel References</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="powerbiCount">0</div>
+                <div class="stat-label">Power BI References</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="totalCount">0</div>
+                <div class="stat-label">Total Items</div>
+            </div>
+        </div>
+
         <div class="search-controls">
             <div class="search-box">
                 <span class="search-icon">🔍</span>
@@ -426,18 +523,25 @@
             </div>
             
             <div class="controls-row">
-                <div class="category-tabs">
-                    <div class="tab active" data-category="all">All</div>
-                    <div class="tab" data-category="excel">Excel</div>
-                    <div class="tab" data-category="powerbi">Power BI</div>
+                <div class="tabs-container">
+                    <div class="category-tabs">
+                        <div class="tab active" data-category="all">All</div>
+                        <div class="tab" data-category="excel">Excel</div>
+                        <div class="tab" data-category="powerbi">Power BI</div>
+                    </div>
+                    
+                    <div class="type-tabs">
+                        <div class="tab active" data-type="all">All Types</div>
+                        <div class="tab" data-type="shortcut">Shortcuts</div>
+                        <div class="tab" data-type="formula">Formulas</div>
+                        <div class="tab" data-type="concept">Concepts</div>
+                    </div>
                 </div>
                 
-                <div class="type-tabs">
-                    <div class="tab active" data-type="all">All Types</div>
-                    <div class="tab" data-type="shortcut">Shortcuts</div>
-                    <div class="tab" data-type="formula">Formulas</div>
-                    <div class="tab" data-type="concept">Concepts</div>
-                </div>
+                <button class="toggle-theme" id="themeToggleMobile">
+                    <i class="fas fa-moon"></i>
+                    <span>Theme</span>
+                </button>
             </div>
         </div>
 
@@ -450,13 +554,13 @@
         <div class="container">
             <p>Data Mastery - Quick reference for Excel & Power BI</p>
             <div class="footer-links">
-                <a href="https://linkedin.com/in/yourprofile" target="_blank">
+                <a href="https://linkedin.com/in/ashwik-bire-b2a000186" target="_blank">
                     <i class="fab fa-linkedin"></i> LinkedIn
                 </a>
-                <a href="https://yourportfolio.com" target="_blank">
+                <a href="https://ashwikbire.github.io/My-Portfolio/" target="_blank">
                     <i class="fas fa-briefcase"></i> Portfolio
                 </a>
-                <a href="mailto:youremail@example.com">
+                <a href="mailto:ashwikbire@gmail.com">
                     <i class="fas fa-envelope"></i> Contact
                 </a>
             </div>
@@ -464,9 +568,9 @@
     </footer>
 
     <script>
-        // Content Data
+        // Content Data - Expanded with 55+ items per category
         const contentData = [
-            // Excel Shortcuts
+            // Excel Shortcuts (25 items)
             {
                 id: 1,
                 title: "Ctrl + Shift + L",
@@ -502,10 +606,150 @@
                 category: "excel",
                 type: "shortcut"
             },
-            
-            // Excel Formulas
             {
                 id: 6,
+                title: "Ctrl + Arrow Keys",
+                description: "Navigate to the edge of data regions.",
+                category: "excel",
+                type: "shortcut"
+            },
+            {
+                id: 7,
+                title: "Alt + E, S, V",
+                description: "Paste special values.",
+                category: "excel",
+                type: "shortcut"
+            },
+            {
+                id: 8,
+                title: "Ctrl + Page Up/Page Down",
+                description: "Move between worksheets.",
+                category: "excel",
+                type: "shortcut"
+            },
+            {
+                id: 9,
+                title: "Ctrl + Shift + :",
+                description: "Insert current time.",
+                category: "excel",
+                type: "shortcut"
+            },
+            {
+                id: 10,
+                title: "Ctrl + ;",
+                description: "Insert current date.",
+                category: "excel",
+                type: "shortcut"
+            },
+            {
+                id: 11,
+                title: "Ctrl + `",
+                description: "Toggle formula view.",
+                category: "excel",
+                type: "shortcut"
+            },
+            {
+                id: 12,
+                title: "Ctrl + 1",
+                description: "Open Format Cells dialog.",
+                category: "excel",
+                type: "shortcut"
+            },
+            {
+                id: 13,
+                title: "Alt + H, O, I",
+                description: "AutoFit column width.",
+                category: "excel",
+                type: "shortcut"
+            },
+            {
+                id: 14,
+                title: "Ctrl + Shift + $",
+                description: "Apply currency format.",
+                category: "excel",
+                type: "shortcut"
+            },
+            {
+                id: 15,
+                title: "Ctrl + Shift + %",
+                description: "Apply percentage format.",
+                category: "excel",
+                type: "shortcut"
+            },
+            {
+                id: 16,
+                title: "Ctrl + K",
+                description: "Insert hyperlink.",
+                category: "excel",
+                type: "shortcut"
+            },
+            {
+                id: 17,
+                title: "Alt + N, V",
+                description: "Insert pivot table.",
+                category: "excel",
+                type: "shortcut"
+            },
+            {
+                id: 18,
+                title: "Alt + F1",
+                description: "Create embedded chart from selected data.",
+                category: "excel",
+                type: "shortcut"
+            },
+            {
+                id: 19,
+                title: "F2",
+                description: "Edit active cell.",
+                category: "excel",
+                type: "shortcut"
+            },
+            {
+                id: 20,
+                title: "Ctrl + F3",
+                description: "Open Name Manager.",
+                category: "excel",
+                type: "shortcut"
+            },
+            {
+                id: 21,
+                title: "Ctrl + Shift + F3",
+                description: "Create names from selection.",
+                category: "excel",
+                type: "shortcut"
+            },
+            {
+                id: 22,
+                title: "Alt + D, F, F",
+                description: "Toggle filters on/off.",
+                category: "excel",
+                type: "shortcut"
+            },
+            {
+                id: 23,
+                title: "Ctrl + Shift + L",
+                description: "Apply filter to selected range.",
+                category: "excel",
+                type: "shortcut"
+            },
+            {
+                id: 24,
+                title: "Alt + A, M",
+                description: "Remove duplicates.",
+                category: "excel",
+                type: "shortcut"
+            },
+            {
+                id: 25,
+                title: "Ctrl + Shift + U",
+                description: "Expand or collapse formula bar.",
+                category: "excel",
+                type: "shortcut"
+            },
+            
+            // Excel Formulas (25 items)
+            {
+                id: 26,
                 title: "XLOOKUP",
                 description: "Looks up a value in a range or array and returns the corresponding value.",
                 syntax: "=XLOOKUP(lookup_value, lookup_array, return_array, [if_not_found], [match_mode], [search_mode])",
@@ -513,7 +757,7 @@
                 type: "formula"
             },
             {
-                id: 7,
+                id: 27,
                 title: "SUMIFS",
                 description: "Adds all numbers in a range that meet multiple criteria.",
                 syntax: "=SUMIFS(sum_range, criteria_range1, criteria1, [criteria_range2, criteria2], ...)",
@@ -521,7 +765,7 @@
                 type: "formula"
             },
             {
-                id: 8,
+                id: 28,
                 title: "IFERROR",
                 description: "Returns a custom result when a formula generates an error, and a standard result when no error is detected.",
                 syntax: "=IFERROR(value, value_if_error)",
@@ -529,7 +773,7 @@
                 type: "formula"
             },
             {
-                id: 9,
+                id: 29,
                 title: "UNIQUE",
                 description: "Returns a list of unique values from a range or array.",
                 syntax: "=UNIQUE(array, [by_col], [exactly_once])",
@@ -537,63 +781,531 @@
                 type: "formula"
             },
             {
-                id: 10,
+                id: 30,
                 title: "FILTER",
                 description: "Filters a range of data based on criteria you define.",
                 syntax: "=FILTER(array, include, [if_empty])",
                 category: "excel",
                 type: "formula"
             },
-            
-            // Excel Concepts
             {
-                id: 11,
+                id: 31,
+                title: "VLOOKUP",
+                description: "Looks for a value in the leftmost column of a table and returns a value in the same row from a specified column.",
+                syntax: "=VLOOKUP(lookup_value, table_array, col_index_num, [range_lookup])",
+                category: "excel",
+                type: "formula"
+            },
+            {
+                id: 32,
+                title: "HLOOKUP",
+                description: "Looks for a value in the top row of a table and returns a value in the same column from a specified row.",
+                syntax: "=HLOOKUP(lookup_value, table_array, row_index_num, [range_lookup])",
+                category: "excel",
+                type: "formula"
+            },
+            {
+                id: 33,
+                title: "INDEX-MATCH",
+                description: "Powerful combination that provides more flexibility than VLOOKUP.",
+                syntax: "=INDEX(return_range, MATCH(lookup_value, lookup_range, 0))",
+                category: "excel",
+                type: "formula"
+            },
+            {
+                id: 34,
+                title: "COUNTIFS",
+                description: "Counts the number of cells that meet multiple criteria.",
+                syntax: "=COUNTIFS(criteria_range1, criteria1, [criteria_range2, criteria2], ...)",
+                category: "excel",
+                type: "formula"
+            },
+            {
+                id: 35,
+                title: "SUMPRODUCT",
+                description: "Multiplies corresponding components in the given arrays and returns the sum of those products.",
+                syntax: "=SUMPRODUCT(array1, [array2], [array3], ...)",
+                category: "excel",
+                type: "formula"
+            },
+            {
+                id: 36,
+                title: "TEXTJOIN",
+                description: "Combines text from multiple ranges and/or strings with a delimiter.",
+                syntax: "=TEXTJOIN(delimiter, ignore_empty, text1, [text2], ...)",
+                category: "excel",
+                type: "formula"
+            },
+            {
+                id: 37,
+                title: "CONCAT",
+                description: "Combines text from multiple ranges and/or strings.",
+                syntax: "=CONCAT(text1, [text2], ...)",
+                category: "excel",
+                type: "formula"
+            },
+            {
+                id: 38,
+                title: "IFS",
+                description: "Checks whether one or more conditions are met and returns a value corresponding to the first TRUE condition.",
+                syntax: "=IFS([Something is True1, Value if True1, Something is True2, Value if True2], ...)",
+                category: "excel",
+                type: "formula"
+            },
+            {
+                id: 39,
+                title: "SWITCH",
+                description: "Evaluates an expression against a list of values and returns the result corresponding to the first matching value.",
+                syntax: "=SWITCH(expression, value1, result1, [default or value2, result2], ...)",
+                category: "excel",
+                type: "formula"
+            },
+            {
+                id: 40,
+                title: "SEQUENCE",
+                description: "Generates a list of sequential numbers in an array.",
+                syntax: "=SEQUENCE(rows, [columns], [start], [step])",
+                category: "excel",
+                type: "formula"
+            },
+            {
+                id: 41,
+                title: "RANDARRAY",
+                description: "Generates an array of random numbers.",
+                syntax: "=RANDARRAY([rows], [columns], [min], [max], [whole_number])",
+                category: "excel",
+                type: "formula"
+            },
+            {
+                id: 42,
+                title: "SORT",
+                description: "Sorts the contents of a range or array.",
+                syntax: "=SORT(array, [sort_index], [sort_order], [by_col])",
+                category: "excel",
+                type: "formula"
+            },
+            {
+                id: 43,
+                title: "SORTBY",
+                description: "Sorts the contents of a range based on the values in another range or array.",
+                syntax: "=SORTBY(array, by_array1, [sort_order1], [by_array2], [sort_order2], ...)",
+                category: "excel",
+                type: "formula"
+            },
+            {
+                id: 44,
+                title: "XMATCH",
+                description: "Returns the relative position of an item in an array or range of cells.",
+                syntax: "=XMATCH(lookup_value, lookup_array, [match_mode], [search_mode])",
+                category: "excel",
+                type: "formula"
+            },
+            {
+                id: 45,
+                title: "LET",
+                description: "Assigns names to calculation results to store intermediate calculations.",
+                syntax: "=LET(name1, name_value1, calculation_or_name2, [name_value2], ...)",
+                category: "excel",
+                type: "formula"
+            },
+            {
+                id: 46,
+                title: "LAMBDA",
+                description: "Creates custom, reusable functions with your own name.",
+                syntax: "=LAMBDA([parameter1], [parameter2], ..., calculation)",
+                category: "excel",
+                type: "formula"
+            },
+            {
+                id: 47,
+                title: "MAXIFS",
+                description: "Returns the maximum value among cells specified by a given set of conditions.",
+                syntax: "=MAXIFS(max_range, criteria_range1, criteria1, [criteria_range2, criteria2], ...)",
+                category: "excel",
+                type: "formula"
+            },
+            {
+                id: 48,
+                title: "MINIFS",
+                description: "Returns the minimum value among cells specified by a given set of conditions.",
+                syntax: "=MINIFS(min_range, criteria_range1, criteria1, [criteria_range2, criteria2], ...)",
+                category: "excel",
+                type: "formula"
+            },
+            {
+                id: 49,
+                title: "AVERAGEIFS",
+                description: "Returns the average of all cells that meet multiple criteria.",
+                syntax: "=AVERAGEIFS(average_range, criteria_range1, criteria1, [criteria_range2, criteria2], ...)",
+                category: "excel",
+                type: "formula"
+            },
+            {
+                id: 50,
+                title: "EDATE",
+                description: "Returns the serial number that represents the date that is the indicated number of months before or after a specified date.",
+                syntax: "=EDATE(start_date, months)",
+                category: "excel",
+                type: "formula"
+            },
+            
+            // Excel Concepts (25 items)
+            {
+                id: 51,
                 title: "Pivot Tables",
                 description: "A powerful tool to summarize, analyze, explore, and present your data.",
                 category: "excel",
                 type: "concept"
             },
             {
-                id: 12,
+                id: 52,
                 title: "Power Query",
                 description: "A data connection technology that enables you to discover, connect, combine, and refine data sources.",
                 category: "excel",
                 type: "concept"
             },
             {
-                id: 13,
+                id: 53,
                 title: "Conditional Formatting",
                 description: "Allows you to automatically apply formatting to cells based on their values.",
                 category: "excel",
                 type: "concept"
             },
-            
-            // Power BI Shortcuts
             {
-                id: 14,
+                id: 54,
+                title: "Data Validation",
+                description: "Feature that allows you to control what can be entered in a cell.",
+                category: "excel",
+                type: "concept"
+            },
+            {
+                id: 55,
+                title: "What-If Analysis",
+                description: "Tools (Data Tables, Scenario Manager, Goal Seek) that allow you to try out different values and see how they affect formula results.",
+                category: "excel",
+                type: "concept"
+            },
+            {
+                id: 56,
+                title: "Array Formulas",
+                description: "Formulas that perform multiple calculations on one or more items in an array.",
+                category: "excel",
+                type: "concept"
+            },
+            {
+                id: 57,
+                title: "Dynamic Arrays",
+                description: "New Excel feature where formulas that return multiple values automatically spill into neighboring cells.",
+                category: "excel",
+                type: "concept"
+            },
+            {
+                id: 58,
+                title: "Power Pivot",
+                description: "Data modeling technology that lets you create data models, establish relationships, and create calculations.",
+                category: "excel",
+                type: "concept"
+            },
+            {
+                id: 59,
+                title: "Macros & VBA",
+                description: "Automate repetitive tasks and create custom functions using Visual Basic for Applications.",
+                category: "excel",
+                type: "concept"
+            },
+            {
+                id: 60,
+                title: "Sparklines",
+                description: "Tiny charts that fit in a single cell to show data trends.",
+                category: "excel",
+                type: "concept"
+            },
+            {
+                id: 61,
+                title: "Slicers & Timelines",
+                description: "Visual filters that make it easy to filter data in tables, pivot tables, and pivot charts.",
+                category: "excel",
+                type: "concept"
+            },
+            {
+                id: 62,
+                title: "3D Maps",
+                description: "Visualize geographic data in 3D format across time.",
+                category: "excel",
+                type: "concept"
+            },
+            {
+                id: 63,
+                title: "Forecast Sheet",
+                description: "Creates a visual forecast worksheet based on historical time-based data.",
+                category: "excel",
+                type: "concept"
+            },
+            {
+                id: 64,
+                title: "Get & Transform",
+                description: "Power Query functionality to connect, combine, and refine data sources.",
+                category: "excel",
+                type: "concept"
+            },
+            {
+                id: 65,
+                title: "Data Model",
+                description: "In-memory analytics engine that compresses data and allows for efficient analysis.",
+                category: "excel",
+                type: "concept"
+            },
+            {
+                id: 66,
+                title: "Advanced Filter",
+                description: "Filter data using complex criteria and extract filtered data to another location.",
+                category: "excel",
+                type: "concept"
+            },
+            {
+                id: 67,
+                title: "Solver",
+                description: "Optimization tool to find optimal solutions for decision problems.",
+                category: "excel",
+                type: "concept"
+            },
+            {
+                id: 68,
+                title: "Text to Columns",
+                description: "Feature to split text in cells into multiple columns based on delimiters or fixed width.",
+                category: "excel",
+                type: "concept"
+            },
+            {
+                id: 69,
+                title: "Remove Duplicates",
+                description: "Quickly find and remove duplicate values in a data range.",
+                category: "excel",
+                type: "concept"
+            },
+            {
+                id: 70,
+                title: "Quick Analysis",
+                description: "Tool that provides quick access to data analysis features like formatting, charts, totals, tables, and sparklines.",
+                category: "excel",
+                type: "concept"
+            },
+            {
+                id: 71,
+                title: "Watch Window",
+                description: "Monitor the values of specific cells while working on other parts of your workbook.",
+                category: "excel",
+                type: "concept"
+            },
+            {
+                id: 72,
+                title: "Data Tables",
+                description: "Part of What-If Analysis that shows how changing certain values in formulas affects the results.",
+                category: "excel",
+                type: "concept"
+            },
+            {
+                id: 73,
+                title: "Scenario Manager",
+                description: "Allows you to create and save different groups of values as scenarios and switch between them.",
+                category: "excel",
+                type: "concept"
+            },
+            {
+                id: 74,
+                title: "Goal Seek",
+                description: "Finds the input value needed to achieve a desired result.",
+                category: "excel",
+                type: "concept"
+            },
+            {
+                id: 75,
+                title: "Excel Templates",
+                description: "Pre-designed spreadsheets that you can use as a starting point for your work.",
+                category: "excel",
+                type: "concept"
+            },
+            
+            // Power BI Shortcuts (25 items)
+            {
+                id: 76,
                 title: "Ctrl + 6",
                 description: "Switch between Report, Data, and Model views.",
                 category: "powerbi",
                 type: "shortcut"
             },
             {
-                id: 15,
+                id: 77,
                 title: "Ctrl + Click",
                 description: "Select multiple objects on a report page.",
                 category: "powerbi",
                 type: "shortcut"
             },
             {
-                id: 16,
+                id: 78,
                 title: "F2",
                 description: "Rename the selected field or visual.",
                 category: "powerbi",
                 type: "shortcut"
             },
-            
-            // Power BI Formulas (DAX)
             {
-                id: 17,
+                id: 79,
+                title: "Ctrl + E",
+                description: "Launch Power Query Editor.",
+                category: "powerbi",
+                type: "shortcut"
+            },
+            {
+                id: 80,
+                title: "Alt + Shift + ↑/↓",
+                description: "Move selected visual forward or backward in the layer order.",
+                category: "powerbi",
+                type: "shortcut"
+            },
+            {
+                id: 81,
+                title: "Ctrl + D",
+                description: "Duplicate selected visual(s).",
+                category: "powerbi",
+                type: "shortcut"
+            },
+            {
+                id: 82,
+                title: "Ctrl + R",
+                description: "Refresh data.",
+                category: "powerbi",
+                type: "shortcut"
+            },
+            {
+                id: 83,
+                title: "Ctrl + .",
+                description: "Show/hide the selection pane.",
+                category: "powerbi",
+                type: "shortcut"
+            },
+            {
+                id: 84,
+                title: "Ctrl + Shift + H",
+                description: "Show/hide the filters pane.",
+                category: "powerbi",
+                type: "shortcut"
+            },
+            {
+                id: 85,
+                title: "Ctrl + Alt + P",
+                description: "Publish to Power BI service.",
+                category: "powerbi",
+                type: "shortcut"
+            },
+            {
+                id: 86,
+                title: "Ctrl + Shift + 1",
+                description: "Switch to Report view.",
+                category: "powerbi",
+                type: "shortcut"
+            },
+            {
+                id: 87,
+                title: "Ctrl + Shift + 2",
+                description: "Switch to Data view.",
+                category: "powerbi",
+                type: "shortcut"
+            },
+            {
+                id: 88,
+                title: "Ctrl + Shift + 3",
+                description: "Switch to Model view.",
+                category: "powerbi",
+                type: "shortcut"
+            },
+            {
+                id: 89,
+                title: "Alt + F5",
+                description: "Run custom layout.",
+                category: "powerbi",
+                type: "shortcut"
+            },
+            {
+                id: 90,
+                title: "Ctrl + F",
+                description: "Find in report.",
+                category: "powerbi",
+                type: "shortcut"
+            },
+            {
+                id: 91,
+                title: "Ctrl + H",
+                description: "Replace in report.",
+                category: "powerbi",
+                type: "shortcut"
+            },
+            {
+                id: 92,
+                title: "Ctrl + Mouse Wheel",
+                description: "Zoom in/out on report canvas.",
+                category: "powerbi",
+                type: "shortcut"
+            },
+            {
+                id: 93,
+                title: "Alt + Drag",
+                description: "Snap visual to grid while moving.",
+                category: "powerbi",
+                type: "shortcut"
+            },
+            {
+                id: 94,
+                title: "Shift + Drag",
+                description: "Resize visual proportionally.",
+                category: "powerbi",
+                type: "shortcut"
+            },
+            {
+                id: 95,
+                title: "Ctrl + Shift + F",
+                description: "Apply focus mode to selected visual.",
+                category: "powerbi",
+                type: "shortcut"
+            },
+            {
+                id: 96,
+                title: "Ctrl + N",
+                description: "Create new report.",
+                category: "powerbi",
+                type: "shortcut"
+            },
+            {
+                id: 97,
+                title: "Ctrl + O",
+                description: "Open existing report.",
+                category: "powerbi",
+                type: "shortcut"
+            },
+            {
+                id: 98,
+                title: "Ctrl + S",
+                description: "Save report.",
+                category: "powerbi",
+                type: "shortcut"
+            },
+            {
+                id: 99,
+                title: "Ctrl + P",
+                description: "Print report or visual.",
+                category: "powerbi",
+                type: "shortcut"
+            },
+            {
+                id: 100,
+                title: "F1",
+                description: "Open Help pane.",
+                category: "powerbi",
+                type: "shortcut"
+            },
+            
+            // Power BI Formulas (DAX) (25 items)
+            {
+                id: 101,
                 title: "CALCULATE",
                 description: "Modifies filter context to perform dynamic calculations.",
                 syntax: "CALCULATE(<expression>, <filter1>, <filter2>, ...)",
@@ -601,7 +1313,7 @@
                 type: "formula"
             },
             {
-                id: 18,
+                id: 102,
                 title: "RELATED",
                 description: "Returns a related value from another table.",
                 syntax: "RELATED(<column>)",
@@ -609,7 +1321,7 @@
                 type: "formula"
             },
             {
-                id: 19,
+                id: 103,
                 title: "DIVIDE",
                 description: "Safe division function that handles division by zero.",
                 syntax: "DIVIDE(<numerator>, <denominator>[, <alternateresult>])",
@@ -617,33 +1329,355 @@
                 type: "formula"
             },
             {
-                id: 20,
+                id: 104,
                 title: "SUMX",
                 description: "Returns the sum of an expression evaluated for each row in a table.",
                 syntax: "SUMX(<table>, <expression>)",
                 category: "powerbi",
                 type: "formula"
             },
-            
-            // Power BI Concepts
             {
-                id: 21,
+                id: 105,
+                title: "FILTER",
+                description: "Returns a table that represents a subset of another table or expression.",
+                syntax: "FILTER(<table>, <condition>)",
+                category: "powerbi",
+                type: "formula"
+            },
+            {
+                id: 106,
+                title: "ALL",
+                description: "Returns all the rows in a table, or all values in a column, ignoring any filters.",
+                syntax: "ALL([<table> | <column>[, <column>[, …]]])",
+                category: "powerbi",
+                type: "formula"
+            },
+            {
+                id: 107,
+                title: "VALUES",
+                description: "Returns a one-column table that contains the distinct values from the specified column.",
+                syntax: "VALUES(<column>)",
+                category: "powerbi",
+                type: "formula"
+            },
+            {
+                id: 108,
+                title: "DISTINCT",
+                description: "Returns a one-column table that contains the distinct values from the specified column.",
+                syntax: "DISTINCT(<column>)",
+                category: "powerbi",
+                type: "formula"
+            },
+            {
+                id: 109,
+                title: "RANKX",
+                description: "Returns the ranking of a number in a list of numbers for each row in the table argument.",
+                syntax: "RANKX(<table>, <expression>[, <value>[, <order>[, <ties>]]])",
+                category: "powerbi",
+                type: "formula"
+            },
+            {
+                id: 110,
+                title: "CALCULATETABLE",
+                description: "Evaluates a table expression in a context modified by filters.",
+                syntax: "CALCULATETABLE(<table>, <filter1>[, <filter2>]…)",
+                category: "powerbi",
+                type: "formula"
+            },
+            {
+                id: 111,
+                title: "RELATEDTABLE",
+                description: "Returns a table with all rows related to the current row.",
+                syntax: "RELATEDTABLE(<table>)",
+                category: "powerbi",
+                type: "formula"
+            },
+            {
+                id: 112,
+                title: "EARLIER",
+                description: "Returns the current value of the specified column in an outer evaluation pass.",
+                syntax: "EARLIER(<column>[, <number>])",
+                category: "powerbi",
+                type: "formula"
+            },
+            {
+                id: 113,
+                title: "TIME INTELLIGENCE FUNCTIONS",
+                description: "Functions for calculations based on date periods (DATESYTD, TOTALYTD, etc.).",
+                syntax: "DATESYTD(<dates>[, <year_end_date>])",
+                category: "powerbi",
+                type: "formula"
+            },
+            {
+                id: 114,
+                title: "USERELATIONSHIP",
+                description: "Specifies an alternate relationship to be used in a calculation.",
+                syntax: "USERELATIONSHIP(<column1>, <column2>)",
+                category: "powerbi",
+                type: "formula"
+            },
+            {
+                id: 115,
+                title: "CONCATENATEX",
+                description: "Concatenates the result of an expression evaluated for each row in a table.",
+                syntax: "CONCATENATEX(<table>, <expression>[, <delimiter>[, <order_by_expression>[, <order>]]])",
+                category: "powerbi",
+                type: "formula"
+            },
+            {
+                id: 116,
+                title: "SELECTEDVALUE",
+                description: "Returns the value when the context for columnName has been filtered down to one distinct value only.",
+                syntax: "SELECTEDVALUE(<columnName>[, <alternateResult>])",
+                category: "powerbi",
+                type: "formula"
+            },
+            {
+                id: 117,
+                title: "ISFILTERED",
+                description: "Returns true when there are direct filters on the specified column.",
+                syntax: "ISFILTERED(<columnName>)",
+                category: "powerbi",
+                type: "formula"
+            },
+            {
+                id: 118,
+                title: "ISCROSSFILTERED",
+                description: "Returns true when the specified column is being filtered directly or indirectly.",
+                syntax: "ISCROSSFILTERED(<columnName>)",
+                category: "powerbi",
+                type: "formula"
+            },
+            {
+                id: 119,
+                title: "FORMAT",
+                description: "Converts a value to text according to the specified format.",
+                syntax: "FORMAT(<value>, <format_string>)",
+                category: "powerbi",
+                type: "formula"
+            },
+            {
+                id: 120,
+                title: "SWITCH",
+                description: "Evaluates an expression against a list of values and returns one of multiple possible result expressions.",
+                syntax: "SWITCH(<expression>, <value>, <result>[, <value>, <result>]…[, <else>)",
+                category: "powerbi",
+                type: "formula"
+            },
+            {
+                id: 121,
+                title: "VAR",
+                description: "Stores the result of an expression as a named variable.",
+                syntax: "VAR <name> = <expression>",
+                category: "powerbi",
+                type: "formula"
+            },
+            {
+                id: 122,
+                title: "COALESCE",
+                description: "Returns the first expression that does not evaluate to BLANK.",
+                syntax: "COALESCE(<expression>, <expression>[, …])",
+                category: "powerbi",
+                type: "formula"
+            },
+            {
+                id: 123,
+                title: "TREATAS",
+                description: "Applies the result of a table expression as filters to columns from an unrelated table.",
+                syntax: "TREATAS(<table expression>, <column1>[, <column2>[, …]])",
+                category: "powerbi",
+                type: "formula"
+            },
+            {
+                id: 124,
+                title: "GENERATE",
+                description: "Returns a table with the Cartesian product between each row in table1 and the table that results from evaluating table2.",
+                syntax: "GENERATE(<table1>, <table2>)",
+                category: "powerbi",
+                type: "formula"
+            },
+            {
+                id: 125,
+                title: "SUMMARIZE",
+                description: "Returns a summary table for the requested totals over a set of groups.",
+                syntax: "SUMMARIZE(<table>, <groupBy_columnName>[, <groupBy_columnName>]…[, <name>, <expression>]…)",
+                category: "powerbi",
+                type: "formula"
+            },
+            
+            // Power BI Concepts (25 items)
+            {
+                id: 126,
                 title: "Data Model",
                 description: "A tabular data structure used in Power Pivot to store data in memory. Allows for powerful relationships and DAX calculations.",
                 category: "powerbi",
                 type: "concept"
             },
             {
-                id: 22,
+                id: 127,
                 title: "Star Schema",
                 description: "A database organizational structure using a single fact table connected to dimension tables.",
                 category: "powerbi",
                 type: "concept"
             },
             {
-                id: 23,
+                id: 128,
                 title: "Row-Level Security",
                 description: "Allows you to control access to rows in a database based on the user executing the query.",
+                category: "powerbi",
+                type: "concept"
+            },
+            {
+                id: 129,
+                title: "Power Query M Language",
+                description: "The language used in Power Query for data transformation steps.",
+                category: "powerbi",
+                type: "concept"
+            },
+            {
+                id: 130,
+                title: "DAX (Data Analysis Expressions)",
+                description: "A formula expression language used in Analysis Services, Power BI, and Power Pivot.",
+                category: "powerbi",
+                type: "concept"
+            },
+            {
+                id: 131,
+                title: "Measures vs Calculated Columns",
+                description: "Understanding when to use measures (dynamic calculations) vs calculated columns (static row-level values).",
+                category: "powerbi",
+                type: "concept"
+            },
+            {
+                id: 132,
+                title: "Filter Context",
+                description: "The set of filters applied to a data model before a calculation is evaluated.",
+                category: "powerbi",
+                type: "concept"
+            },
+            {
+                id: 133,
+                title: "Row Context",
+                description: "The context that exists when a formula is evaluated row by row.",
+                category: "powerbi",
+                type: "concept"
+            },
+            {
+                id: 134,
+                title: "Context Transition",
+                description: "The process of converting row context to filter context in DAX formulas.",
+                category: "powerbi",
+                type: "concept"
+            },
+            {
+                id: 135,
+                title: "Power BI Service",
+                description: "The cloud-based service for sharing and collaborating on Power BI content.",
+                category: "powerbi",
+                type: "concept"
+            },
+            {
+                id: 136,
+                title: "Power BI Desktop",
+                description: "The authoring tool for creating Power BI reports and data models.",
+                category: "powerbi",
+                type: "concept"
+            },
+            {
+                id: 137,
+                title: "Gateways",
+                description: "Bridges that enable secure data transfer between on-premises data sources and Power BI services.",
+                category: "powerbi",
+                type: "concept"
+            },
+            {
+                id: 138,
+                title: "DirectQuery",
+                description: "A connection mode that runs queries directly against the source database rather than importing data.",
+                category: "powerbi",
+                type: "concept"
+            },
+            {
+                id: 139,
+                title: "Import Mode",
+                description: "A connection mode where data is imported and stored in the Power BI in-memory engine.",
+                category: "powerbi",
+                type: "concept"
+            },
+            {
+                id: 140,
+                title: "Composite Models",
+                description: "Data models that combine Import and DirectQuery storage modes.",
+                category: "powerbi",
+                type: "concept"
+            },
+            {
+                id: 141,
+                title: "Aggregations",
+                description: "A feature that improves query performance by using pre-aggregated data for summarized queries.",
+                category: "powerbi",
+                type: "concept"
+            },
+            {
+                id: 142,
+                title: "Q&A",
+                description: "A natural language query feature that allows users to ask questions about their data.",
+                category: "powerbi",
+                type: "concept"
+            },
+            {
+                id: 143,
+                title: "Bookmarks",
+                description: "Capture the currently configured view of a report page for later reference.",
+                category: "powerbi",
+                type: "concept"
+            },
+            {
+                id: 144,
+                title: "Drillthrough",
+                description: "Allows users to navigate from one report page to another while maintaining context filters.",
+                category: "powerbi",
+                type: "concept"
+            },
+            {
+                id: 145,
+                title: "Tooltips",
+                description: "Customizable pop-up windows that display additional information when hovering over visuals.",
+                category: "powerbi",
+                type: "concept"
+            },
+            {
+                id: 146,
+                title: "Custom Visuals",
+                description: "Visualizations created by the community or third-party developers that extend Power BI's capabilities.",
+                category: "powerbi",
+                type: "concept"
+            },
+            {
+                id: 147,
+                title: "Power BI Apps",
+                description: "Packaged collections of dashboards, reports, and datasets for distribution to users.",
+                category: "powerbi",
+                type: "concept"
+            },
+            {
+                id: 148,
+                title: "Dataflows",
+                description: "Cloud-based ETL service that allows you to prepare data for use in Power BI.",
+                category: "powerbi",
+                type: "concept"
+            },
+            {
+                id: 149,
+                title: "AI Visuals",
+                description: "Pre-built visualizations that incorporate artificial intelligence capabilities.",
+                category: "powerbi",
+                type: "concept"
+            },
+            {
+                id: 150,
+                title: "Performance Analyzer",
+                description: "A tool that helps identify performance bottlenecks in Power BI reports.",
                 category: "powerbi",
                 type: "concept"
             }
@@ -653,8 +1687,12 @@
         const contentGrid = document.getElementById('contentGrid');
         const searchInput = document.getElementById('searchInput');
         const themeToggle = document.getElementById('themeToggle');
+        const themeToggleMobile = document.getElementById('themeToggleMobile');
         const categoryTabs = document.querySelectorAll('.category-tabs .tab');
         const typeTabs = document.querySelectorAll('.type-tabs .tab');
+        const excelCount = document.getElementById('excelCount');
+        const powerbiCount = document.getElementById('powerbiCount');
+        const totalCount = document.getElementById('totalCount');
 
         // State
         let currentCategory = 'all';
@@ -663,8 +1701,19 @@
 
         // Initialize
         function init() {
+            updateStats();
             renderContent();
             setupEventListeners();
+        }
+
+        // Update statistics
+        function updateStats() {
+            const excelItems = contentData.filter(item => item.category === 'excel');
+            const powerbiItems = contentData.filter(item => item.category === 'powerbi');
+            
+            excelCount.textContent = excelItems.length;
+            powerbiCount.textContent = powerbiItems.length;
+            totalCount.textContent = contentData.length;
         }
 
         // Set up event listeners
@@ -677,6 +1726,7 @@
 
             // Theme toggle
             themeToggle.addEventListener('click', toggleTheme);
+            themeToggleMobile.addEventListener('click', toggleTheme);
 
             // Category tabs
             categoryTabs.forEach(tab => {
@@ -703,15 +1753,19 @@
         function toggleTheme() {
             document.body.classList.toggle('light-mode');
             const isLightMode = document.body.classList.contains('light-mode');
-            themeToggle.querySelector('span').textContent = isLightMode ? 'Toggle Dark Mode' : 'Toggle Light Mode';
+            const themeIcon = document.querySelector('.toggle-theme i');
             
-            // Update icon based on theme
-            const logoIcon = document.querySelector('.logo-icon');
             if (isLightMode) {
-                logoIcon.style.color = '#7B61FF';
+                themeToggle.querySelector('span').textContent = 'Toggle Dark Mode';
+                themeIcon.className = 'fas fa-sun';
             } else {
-                logoIcon.style.color = '#7B61FF';
+                themeToggle.querySelector('span').textContent = 'Toggle Light Mode';
+                themeIcon.className = 'fas fa-moon';
             }
+            
+            // Update mobile button
+            const mobileIcon = themeToggleMobile.querySelector('i');
+            mobileIcon.className = isLightMode ? 'fas fa-sun' : 'fas fa-moon';
         }
 
         // Filter content based on current filters
@@ -748,10 +1802,10 @@
             }
             
             contentGrid.innerHTML = filteredContent.map(item => `
-                <div class="card">
+                <div class="card ${item.category}">
                     <div class="card-header">
                         <h3 class="card-title">${item.title}</h3>
-                        <span class="card-category">${item.category === 'excel' ? 'Excel' : 'Power BI'}</span>
+                        <span class="card-category ${item.category}">${item.category === 'excel' ? 'Excel' : 'Power BI'}</span>
                     </div>
                     <p class="card-description">${item.description}</p>
                     ${item.syntax ? `<pre class="card-syntax">${item.syntax}</pre>` : ''}
